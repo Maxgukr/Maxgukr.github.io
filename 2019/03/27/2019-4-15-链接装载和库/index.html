@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>链接装载和库(1) | Maxwei | My personal blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="链接装载和库链接的主要内容就是把各个模块之间相互引用的部分处理好，使得各个模块之间能够正确的衔接。链接器所要做的工作就是把一些指令对其他符号地址的引用加以修正。链接过程主要包括了：  地址和空间分配 符号决议 重定位">
+<meta name="keywords" content="strive seek find">
+<meta property="og:type" content="article">
+<meta property="og:title" content="链接装载和库(1)">
+<meta property="og:url" content="http://yoursite.com/2019/03/27/2019-4-15-链接装载和库/index.html">
+<meta property="og:site_name" content="Maxwei | My personal blog">
+<meta property="og:description" content="链接装载和库链接的主要内容就是把各个模块之间相互引用的部分处理好，使得各个模块之间能够正确的衔接。链接器所要做的工作就是把一些指令对其他符号地址的引用加以修正。链接过程主要包括了：  地址和空间分配 符号决议 重定位">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/ELF.png">
+<meta property="og:updated_time" content="2019-05-03T15:00:15.243Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="链接装载和库(1)">
+<meta name="twitter:description" content="链接装载和库链接的主要内容就是把各个模块之间相互引用的部分处理好，使得各个模块之间能够正确的衔接。链接器所要做的工作就是把一些指令对其他符号地址的引用加以修正。链接过程主要包括了：  地址和空间分配 符号决议 重定位">
+<meta name="twitter:image" content="http://yoursite.com/img/ELF.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Maxwei | My personal blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Maxwei | My personal blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Succes is not final, failure is not fatal. It is the courage to continiue that counts.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2019-4-15-链接装载和库" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/27/2019-4-15-链接装载和库/" class="article-date">
+  <time datetime="2019-03-26T16:00:00.000Z" itemprop="datePublished">2019-03-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/编译原理/">编译原理</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      链接装载和库(1)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="链接装载和库"><a href="#链接装载和库" class="headerlink" title="链接装载和库"></a>链接装载和库</h1><p>链接的主要内容就是把各个模块之间相互引用的部分处理好，使得各个模块之间能够正确的衔接。链接器所要做的工作就是把一些指令对其他符号地址的引用加以修正。<br>链接过程主要包括了：</p>
+<ul>
+<li><strong>地址和空间分配</strong></li>
+<li><strong>符号决议</strong></li>
+<li><strong>重定位</strong></li>
+</ul>
+<a id="more"></a>
+<h1 id="第三章-目标文件有什么"><a href="#第三章-目标文件有什么" class="headerlink" title="第三章　目标文件有什么"></a>第三章　目标文件有什么</h1><p>目标文件从结构上来讲，它是经过编译后的可执行文件格式，只是还没有经过链接的过程，其中可能有些符号或有些地址没有被调整。</p>
+<p>可执行文件涵盖了程序的编译、链接、装载和执行的方方面面。了解它的结构并深入剖析它对于认识系统，了解背后的机理大有好处。</p>
+<blockquote>
+<p>目标文件纯粹是字节快的集合。这些块中有的包含程序数据，而其他的包含引导链接器和加载器的数据结构。连接器将这些数据块链接起来，确定被连接块的运行时位置，并且修改代码和数据块中的各种位置。</p>
+</blockquote>
+<h2 id="3-1目标文件格式"><a href="#3-1目标文件格式" class="headerlink" title="3.1目标文件格式"></a>3.1目标文件格式</h2><p>现在pc端流行的可执行文件格式主要是windows下的PE和linux下的ELF，他们都是COFF格式的变种。目标文件就是源码编译后但未进行链接的那些中间文件(linux下叫.o，windows下叫.obj)，它和可执行文件的内容和结构都很相似。动态链接库和静态链接库也可以按照可执行文件来存储。</p>
+<p>目标文件有三种格式：</p>
+<ul>
+<li>可重定位目标文件。包含二进制代码和数据，其形式可被直接复制到内存并执行。其形式可以在编译时与其他可重定位目标文件合并起来，创建一个可执行目标文件。</li>
+<li>可执行目标文件。包含位二进制代码和数据，可直接装载进内存执行。</li>
+<li>共享目标文件。一种特殊类型的可重定位目标文件，可以在加载或运行时被动态的加载金内存并链接。</li>
+</ul>
+<h2 id="3-2目标文件是什么样的"><a href="#3-2目标文件是什么样的" class="headerlink" title="3.2目标文件是什么样的"></a>3.2目标文件是什么样的</h2><p>大概可以猜到，目标文件中至少含有编译后的机器指令代码、数据。除了这些内容外，目标文件还包括了链接时所需要的一些信息，比如符号表、调试信息、字符串等。</p>
+<p>编译后生成的机器指令放在代码段里，“.code”或“.text”</p>
+<p>全局变量和局部静态变量放在数据段中，“.data”</p>
+<p>未初始化的全局变量和局部变量以及所有初始化为０的全局或静态变量放在“.bss”中</p>
+<h2 id="3-4ELF文件结构描述"><a href="#3-4ELF文件结构描述" class="headerlink" title="3.4ELF文件结构描述"></a>3.4ELF文件结构描述</h2><p>ELF文件的最前面是文件头，包含了描述整个文件的基本属性，比如ELF文件版本，目标机器型号，程序入口地址等等。紧接着是各个段。与段有关的重要信息是段表(section header table)，描述了ELF文件包含的所有段的信息。比如每个段的段名，长度，偏移量等。接下来详细分析文件头和段表。</p>
+<p><img src="/img/ELF.png" alt></p>
+<h2 id="3-5链接的基本接口——符号"><a href="#3-5链接的基本接口——符号" class="headerlink" title="3.5链接的基本接口——符号"></a>3.5链接的基本接口——符号</h2><p>在连接中，目标文件之间相互拼合实际上是目标文件之间对地址的引用，即对函数和变量的地址引用。在链接中，将函数和变量统称为符号，函数名或变量名就是符号名。</p>
+<p>链接过程中很关键的一部分就是对于符号的管理，每个目标文件都会有一个相应的符号表，这个表里记录了目标文件中所用到的所有符号。每个定义的符号有一个对应的值，叫做符号值，对于变量和函数来说，符号值就是它们的地址。将符号表中的所有符号进行分类，他们可能是下面这些类型中的一种：</p>
+<ul>
+<li><strong>定义在本目标文件的全局符号</strong>，可以被其他目标文件引用</li>
+<li><strong>在本目标文件中引用的全局符号,却没有定义在本文件</strong>,　这一般叫外部符号，又叫符号引用</li>
+<li><strong>段名</strong>, 代表该段的起始地址值</li>
+<li><strong>局部符号</strong>,  只在编译单元内部可见</li>
+</ul>
+<p>最值得关注的是全局符号，就是第一类和第二类。链接只关心全局符号的相互“粘合”。</p>
+<blockquote>
+<p>链接器解析符号引用的方法是将每个引用与它输入的可重定位目标文件的符号表中的一个确定的符号关联起来。</p>
+</blockquote>
+<h3 id="3-5-3符号修饰和函数签名"><a href="#3-5-3符号修饰和函数签名" class="headerlink" title="3.5.3符号修饰和函数签名"></a>3.5.3符号修饰和函数签名</h3><p>为了放置函数命名冲突，引入了符号修饰或符号改变机制。在c++中，有类，继承，虚机制，名称空间这些特性。ｃ＋＋编译后的代码采用数字签名来识别不同的函数。不同类、命名空间、函数参数类型和个数的函数，即使函数名一样，对应的函数签名也不会一样，对应的符号表也不一样，并不会在链接时引起冲突。</p>
+<h1 id="第四章-静态链接"><a href="#第四章-静态链接" class="headerlink" title="第四章　静态链接"></a>第四章　静态链接</h1><p>对连接器来说，整个过程就是将几个输入目标文件加工后合并成一个输出文件。对于多个输入目标文件，链接器如何将它们的各个段合并到输出文件？或者说，输出文件的空间如何分配给输入文件？</p>
+<h2 id="按序叠加"><a href="#按序叠加" class="headerlink" title="按序叠加"></a>按序叠加</h2><p>一个简单的方法是将输入的目标文件按照次序叠加起来。这样做很简单，但是会导致一个输出文件里会有很多相似的.text,.data,.bss段等。这样的做法使最后的输出文件有成百上千的零散的段，非常浪费空间，因为每个段都需要有一定的地址和空间对其要求。</p>
+<h2 id="相似段合并"><a href="#相似段合并" class="headerlink" title="相似段合并"></a>相似段合并</h2><p>一个更实际的做法是把相似的段合并在一起，比如所有的.text合并在一起，所有的.data合并在一起。但是对与.bss段情况有些许不同，.bss段在目标文件和可执行文件中并不占用文件空间，但是他在装载的时候占用地址空间。所以链接器在合并各个段时也将.bss合并并分配地址空间.</p>
+<blockquote>
+<p>所谓的空间分配到底是什么？</p>
+</blockquote>
+<p><strong>链接器为目标文件分配地址和空间</strong>　这句话中的地址和空间有两个含义：</p>
+<ul>
+<li>第一个是在输出的可执行文件中的空间</li>
+<li>第二个是在装载后的虚拟地址中的虚拟地址空间</li>
+</ul>
+<p>对于有实际数据的段，比如“.text”和“.data”来说，他们在文件中和虚拟地址中都要分配空间，因为它们在两者中都存在；而对于“.bss”这样的段来说，分配空间的意义只局限于虚拟地址空间，因为他在文件中并没有内容。</p>
+<p><strong>事实上我们这里谈到的空间分配只关注于虚拟地址空间的分配，因为这个关系到连接器后面的关于地址计算的步骤，而可执行文件本身的空间分配与链接过程关系不大</strong></p>
+<p>现代连接器的分配一般采用第二种方法，相似段合并，整个过程分为两步：</p>
+<ul>
+<li>第一步，重新定义节和和符号定义。在这一步中，连接器将所有相同类型的节合并为同一类型的新的聚合节。然后链接器将运行时内存地址赋给新的聚合节，赋给输入模块定义的每个节，以及赋给输入模块定义的每个符号。当这一步完成时，程序中的每条指令和全局变量都有唯一的运行时地址了。</li>
+<li>第二步，重定位节中的符号引用。在这一步中，链接器修改代码节和数据节中对每个符号的引用，使得他们指向正确的运行时地址。要执行这一步，链接器依赖于<strong>可重定位目标模块</strong>中的<strong>重定位条目</strong></li>
+</ul>
+<h2 id="重定位条目"><a href="#重定位条目" class="headerlink" title="重定位条目"></a>重定位条目</h2><p>当汇编器生成一个目标模块时，它并不知道数据和代码最终放在内存中的什么位置，他也不知道这个模块引用的任何外部定义的函数或全局变量的位置。所以，无论何时编译器遇到对最终位置未知的目标引用，它就会生成一个重定位条目，告诉链接器在将目标文件合并成可执行文件时如何修改这个引用。代码的重定位条目</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/27/2019-4-15-链接装载和库/" data-id="cjv8u8x09000z59btf9jf45v0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/27/2019-3-27-深度学习中的正则化/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          深度学习中的正则化
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/03/19/2019-3-19-逻辑回归和最大熵/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">逻辑回归和最大熵模型</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DSA/">DSA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/LeetCode/">LeetCode</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Meachine-Learning/">Meachine Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tensorflow/">Tensorflow</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/c/">c++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/paper/">paper</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/reinforce-learning/">reinforce learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/比赛/">比赛</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/编译原理/">编译原理</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/03/leetcode/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/code/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-orderMatters/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-3-28－强化学习概览/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-1-14-keras-learningScript/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Fang Wei<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

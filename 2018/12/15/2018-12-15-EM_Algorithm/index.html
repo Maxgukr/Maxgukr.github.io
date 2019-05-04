@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>EM-Algorithm | Maxwei | My personal blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="EM AlgorithmEM算法是一种计算含有隐变量的后验概率的方法，它的最常见的应用是在高斯混合模型的参数估计中。EM算法是一种启发式的迭代算法，分为两步：E步：计算期望；M：期望最大时的参数。如果概率模型的变量都是观测变量，那么给定数据，可以直接用极大似然估计法，或贝叶斯估计法估计模型参数。但是当模型中含有不可观测的隐变量时，不能直接使用极大似然估计或极大后验估计，需要使用EM来估计参数。">
+<meta name="keywords" content="strive seek find">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EM-Algorithm">
+<meta property="og:url" content="http://yoursite.com/2018/12/15/2018-12-15-EM_Algorithm/index.html">
+<meta property="og:site_name" content="Maxwei | My personal blog">
+<meta property="og:description" content="EM AlgorithmEM算法是一种计算含有隐变量的后验概率的方法，它的最常见的应用是在高斯混合模型的参数估计中。EM算法是一种启发式的迭代算法，分为两步：E步：计算期望；M：期望最大时的参数。如果概率模型的变量都是观测变量，那么给定数据，可以直接用极大似然估计法，或贝叶斯估计法估计模型参数。但是当模型中含有不可观测的隐变量时，不能直接使用极大似然估计或极大后验估计，需要使用EM来估计参数。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-03T14:54:47.809Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="EM-Algorithm">
+<meta name="twitter:description" content="EM AlgorithmEM算法是一种计算含有隐变量的后验概率的方法，它的最常见的应用是在高斯混合模型的参数估计中。EM算法是一种启发式的迭代算法，分为两步：E步：计算期望；M：期望最大时的参数。如果概率模型的变量都是观测变量，那么给定数据，可以直接用极大似然估计法，或贝叶斯估计法估计模型参数。但是当模型中含有不可观测的隐变量时，不能直接使用极大似然估计或极大后验估计，需要使用EM来估计参数。">
+  
+    <link rel="alternate" href="/atom.xml" title="Maxwei | My personal blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Maxwei | My personal blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Succes is not final, failure is not fatal. It is the courage to continiue that counts.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2018-12-15-EM_Algorithm" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/15/2018-12-15-EM_Algorithm/" class="article-date">
+  <time datetime="2018-12-14T16:00:00.000Z" itemprop="datePublished">2018-12-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/DSA/">DSA</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      EM-Algorithm
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="EM-Algorithm"><a href="#EM-Algorithm" class="headerlink" title="EM Algorithm"></a>EM Algorithm</h1><p>EM算法是一种计算含有隐变量的后验概率的方法，它的最常见的应用是在高斯混合模型的参数估计中。EM算法是一种启发式的迭代算法，分为两步：E步：计算期望；M：期望最大时的参数。如果概率模型的变量都是观测变量，那么给定数据，可以直接用极大似然估计法，或贝叶斯估计法估计模型参数。但是当模型中含有不可观测的隐变量时，不能直接使用极大似然估计或极大后验估计，需要使用EM来估计参数。</p>
+<a id="more"></a>
+<h2 id="EM算法的导出"><a href="#EM算法的导出" class="headerlink" title="EM算法的导出"></a>EM算法的导出</h2><p>符号说明：</p>
+<ul>
+<li>Y:可观测变量</li>
+<li>Z:隐变量</li>
+<li>$P(Y|\theta)$ 观测数据Y关于模型参数$\theta$的条件分布</li>
+<li>$P(Y,Z|\theta)$ 观测数据Y,隐变量Z的联合概率分布</li>
+<li>$P(Z|Y,\theta)$ 隐变量Z关于Y和$\theta$的条件分布</li>
+<li>$\log P(Y|\theta)$ 观测数据Y的似然函数</li>
+</ul>
+<p>根据贝叶斯公式可以得到的性质：</p>
+<p>$$P(Y,Z|\theta) = P(Z|\theta)P(Y|Z,\theta)=P(Y|\theta)P(Z|Y,\theta)$$(1)</p>
+<p>$$P(Y|\theta) = \sum_ZP(Y,Z|\theta) = \sum_ZP(Z|\theta)P(Y|Z,\theta)$$</p>
+<p>我们的目标是极大化观测数据Y关于参数$\theta$的似然函数：</p>
+<p>$$L(\theta)= \log \sum_Z P(Z|\theta)P(Y|Z,\theta)$$(2)</p>
+<p>计算(2)的主要困难是对数函数中包含有和的成分以及不可观测值Z。</p>
+<p>已知EM是一种启发式的方法，也可以说是一种贪心的方法，每一次都得到一组可以使$L(\theta)$增加的参数值，不断的迭代下去，直到$L(\theta)$的值变化不明显。因此我们可以考虑两者的差：</p>
+<p>$$L(\theta) - L(\theta^{(i)}) = \log \sum_Z P(Z|\theta)P(Y|Z,\theta) - \log P(Y|\theta^{(i)})$$(3)</p>
+<p>将(3)做如下变形：</p>
+<p>$$L(\theta) - L(\theta^{(i)}) = \log \sum_Z P(Y|Z,\theta^{(i)})\frac{P(Z|\theta)P(Y|Z,\theta)} {P(Y|Z,\theta^{(i)})} - \log P(Y|\theta^{(i)})$$(4)</p>
+<p>利用Jensen不等式：</p>
+<p>$$\log \sum_j \lambda_j Y_j \ge \sum_j \lambda_j\log Y_j$$(5)<br>$$\lambda_j \ge 0$$<br>$$\sum \lambda_j = 1$$</p>
+<p>应用于(4)式右边第一项，得到：</p>
+<p>$$L(\theta) - L(\theta^{(i)}) \ge  \sum_Z P(Z|Y,\theta^{(i)})\log\frac{P(Z|\theta)P(Y|Z,\theta)} {P(Y|Z,\theta^{(i)})} - \log P(Y|\theta^{(i)})$$<br>$$=\sum_Z P(Z|Y,\theta^{(i)})\log\frac{P(Z|\theta)P(Y|Z,\theta)} {P(Z|Y,\theta^{(i)})P(Y|\theta^{(i)})}$$(6)</p>
+<p>通过(6)我们可以得到$L(\theta)$的一个下界$B(\theta,\theta^{(i)})$</p>
+<p>$$B(\theta,\theta^{(i)}) = L(\theta^{(i)})+\sum_Z P(Z|Y,\theta^{(i)})\log\frac{P(Z|\theta)P(Y|Z,\theta)} {P(Z|Y,\theta^{(i)})P(Y|\theta^{(i)})}$$(7)</p>
+<p>任何可以使$B(\theta,\theta^{(i)})$增大的$\theta$都可以使$L(\theta)$增大。因此可以最大化$B(\theta,\theta^{(i)})$来最大化$L(\theta)$。</p>
+<p>$$\theta^{(i+1)} = argmax_{\theta}B(\theta,\theta^{(i)})$$</p>
+<p>省去$B(\theta,\theta^{(i)})$中对$\theta$而言的常数项：</p>
+<p>$$argmax(L(\theta^{(i)})+\sum_Z P(Z|Y,\theta^{(i)})\log\frac{P(Z|\theta)P(Y|Z,\theta)} {P(Z|Y,\theta^{(i)})P(Y|\theta^{(i)})})$$<br>等价于:</p>
+<p>$$argmax(\sum_Z P(Z|Y,\theta^{(i)})\log\frac{P(Z|\theta)P(Y|Z,\theta)} {P(Z|Y,\theta^{(i)})P(Y|\theta^{(i)})})$$</p>
+<p>等价于：</p>
+<p>$$argmax(\sum_Z P(Z|Y,\theta^{(i)})\log\frac{P(Y,Z|\theta)} {P(Y,Z|\theta^{(i)})})$$</p>
+<p>等价于：</p>
+<p>$$argmax(\sum_Z P(Z|Y,\theta^{(i)})\log P(Y,Z|\theta))$$(8)</p>
+<p>上述的(8)即为EM算法中定义的Q函数。(8)的含义是完全数据的对数似然函数$\log P(Y,Z|\theta)$，在给定观测数据Y和当前参数$\theta^{(i)}$的条件下，关于隐变量Z的条件概率分布$P(Z|Y,\theta^{(i)})$的期望。即：</p>
+<p>$$Q(\theta,\theta^{(i)}) = E_Z[\log P(Y,Z|\theta)|Y,\theta^{(i)}]$$(9)</p>
+<p>EM算法的几个步骤：</p>
+<ol>
+<li><p>参数$\theta$的初值可以任意选择，但EM算法对初值是敏感的。</p>
+</li>
+<li><p>E步求$Q(\theta,\theta^{(i)})$</p>
+<p>2.1 求$\log P(Y,Z|\theta)$</p>
+<p>2.2 求$P(Z|Y,\theta^{(i)})$的值</p>
+</li>
+<li><p>求$Q(\theta,\theta^{(i)})$的极大，得到$\theta^{(i+1)}$,完成一次更新</p>
+</li>
+<li><p>检查停止迭代的条件</p>
+</li>
+</ol>
+<h2 id="EM算法的收敛性"><a href="#EM算法的收敛性" class="headerlink" title="EM算法的收敛性"></a>EM算法的收敛性</h2><p>EM算法对初值是敏感的，在一定条件下，参数估计序列可以收敛到对数似然函数序列的稳定点，不能保证收敛到极大值点。</p>
+<h2 id="EM算法在高斯混合模型中的应用"><a href="#EM算法在高斯混合模型中的应用" class="headerlink" title="EM算法在高斯混合模型中的应用"></a>EM算法在高斯混合模型中的应用</h2><p><strong>定义</strong>: 高斯混合模型是具有如下形式的概率分布模型：</p>
+<p>$$P(Y|\theta) = \sum_{k=1}^K\alpha_k\phi(y|\theta_k)$$</p>
+<p>其中$\alpha_k$是系数，$\alpha_k \ge 0,\sum\alpha_k=1$。 $\phi(y|\theta_k)$是高斯分布密度，$\theta_k=(\mu_k,\sigma_k^2)$。</p>
+<p>$$\phi(y|\theta_k)=\frac{1}{\sqrt{2\pi}\sigma_k}\exp(-\frac{(y-\mu_k)^2}{2\sigma_k^2})$$</p>
+<p>高斯混合模型生成数据的过称为：首先依概率$\alpha_k$选择第Ｋ个高斯分布模型$\phi_k$，然后按照$\phi_k$的概率分布生成可观测的数据$y_i$。这时，观测数据Y是已知的，反应观测数据来自第几个分模型是未知的，以隐变量表示。$\gamma_{jk}=1$表示第j个观测数据来自第k个分模型。</p>
+<p>$$\gamma_{jk}={0,1}$$</p>
+<h3 id="第一步：确定联合数据的似然函数"><a href="#第一步：确定联合数据的似然函数" class="headerlink" title="第一步：确定联合数据的似然函数"></a>第一步：确定联合数据的似然函数</h3><p>$$P(Y,\gamma|\theta) = \prod_{k=1}^K\prod_{j=1}^N P(y_i,\gamma_{jk})<br>\<br>=\prod_{k=1}^K\prod_{j=1}^N (\alpha_k\phi(y_j|\theta_k))^{\gamma_{jk}}\<br>=\prod_{k=1}^K \alpha_k^{n_k} \prod_{j=1}^N (\frac{1}{\sqrt{2\pi}\sigma_k}\exp(-\frac{(y_j-\mu_k)^2}{2\sigma_k^2}))^{\gamma_{jk}}$$(1)</p>
+<p>其中$n_k=\sum_{j=1}^N\gamma_{jk}$, $\sum_{k=1}^Kn_k=N$　$n_k$表示来自第k个分模型的数据的总数。</p>
+<p>对数似然函数为：</p>
+<p>$$\log P(Y,\gamma|\theta)=\sum_{k=1}^K{n_k\log \alpha_k+\sum_{j=1}^N\gamma_{jk}[\log(\frac{1}{2\pi})-\log\alpha_k-\frac{1}{2\sigma_k^2}(y_i-\mu_k)^2]     }$$(2)</p>
+<h3 id="第二步：确定Q函数"><a href="#第二步：确定Q函数" class="headerlink" title="第二步：确定Q函数"></a>第二步：确定Q函数</h3><p>$$Q(\theta,\theta^{i})=E[\log P(Y,\gamma|\theta)|Y,\theta^i]$$</p>
+<p>对(2)式求隐变量的条件期望</p>
+<p>$$Q(\theta,\theta^{i})=E[\sum_{k=1}^K{n_k\log \alpha_k+\sum_{j=1}^N\gamma_{jk}[\log(\frac{1}{2\pi})-\log\alpha_k-\frac{1}{2\sigma_k^2}(y_i-\mu_k)^2]     }]$$</p>
+<p>根据期望的性质，得到：</p>
+<p>$$\sum_{k=1}^K{\sum_{j=1}^NE[\gamma_{jk}|y,\theta]\log \alpha_k+\sum_{j=1}^NE[\gamma_{jk}|y,\theta][\log(\frac{1}{2\pi})-\log\alpha_k-\frac{1}{2\sigma_k^2}(y_i-\mu_k)^2]     }$$(3)</p>
+<p>接下来求$E[\gamma_{jk}|y,\theta]$, 利用贝叶斯的条件概率公式：</p>
+<p>$$\hat{\gamma_{jk}}=E[\gamma_{jk}|y,\theta]=P(\gamma_{jk}=1|y,\theta)=\frac{P(\gamma_{jk}=1,y_j|\theta)}{\sum_{k=1}^KP(\gamma_{jk}=1,y_j|\theta)}=\frac{\alpha_k\phi(y_j|\theta_k)}{\sum_{k=1}^K\alpha_k\phi(y_j|\theta_k)}$$(4)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/12/15/2018-12-15-EM_Algorithm/" data-id="cjv8u8wzr000b59bth4vto1h1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/01/15/项目二补充说明/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Learning To Solve Routing　Problem
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/12/08/2018-12-9-Order_static/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">DSA-oder_static</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DSA/">DSA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/LeetCode/">LeetCode</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Meachine-Learning/">Meachine Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tensorflow/">Tensorflow</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/c/">c++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/paper/">paper</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/reinforce-learning/">reinforce learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/比赛/">比赛</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/编译原理/">编译原理</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/03/leetcode/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/code/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-orderMatters/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-3-28－强化学习概览/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-1-14-keras-learningScript/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Fang Wei<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

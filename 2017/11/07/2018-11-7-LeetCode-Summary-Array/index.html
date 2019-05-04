@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>LeetCode-Summary-string | Maxwei | My personal blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="LeetCode 刷题总结（二）此部分的内容为字节跳动推荐的围绕数组与排序方面的题目的总结。 数组中常用的算法思想：  二分法：可以有效降低时间复杂度 深度优先搜索， 通常很有用 广度有限搜索，很常用">
+<meta name="keywords" content="strive seek find">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode-Summary-string">
+<meta property="og:url" content="http://yoursite.com/2017/11/07/2018-11-7-LeetCode-Summary-Array/index.html">
+<meta property="og:site_name" content="Maxwei | My personal blog">
+<meta property="og:description" content="LeetCode 刷题总结（二）此部分的内容为字节跳动推荐的围绕数组与排序方面的题目的总结。 数组中常用的算法思想：  二分法：可以有效降低时间复杂度 深度优先搜索， 通常很有用 广度有限搜索，很常用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-03T14:54:06.733Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LeetCode-Summary-string">
+<meta name="twitter:description" content="LeetCode 刷题总结（二）此部分的内容为字节跳动推荐的围绕数组与排序方面的题目的总结。 数组中常用的算法思想：  二分法：可以有效降低时间复杂度 深度优先搜索， 通常很有用 广度有限搜索，很常用">
+  
+    <link rel="alternate" href="/atom.xml" title="Maxwei | My personal blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Maxwei | My personal blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Succes is not final, failure is not fatal. It is the courage to continiue that counts.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2018-11-7-LeetCode-Summary-Array" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/07/2018-11-7-LeetCode-Summary-Array/" class="article-date">
+  <time datetime="2017-11-06T16:00:00.000Z" itemprop="datePublished">2017-11-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/LeetCode/">LeetCode</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      LeetCode-Summary-string
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="LeetCode-刷题总结（二）"><a href="#LeetCode-刷题总结（二）" class="headerlink" title="LeetCode 刷题总结（二）"></a>LeetCode 刷题总结（二）</h1><p>此部分的内容为字节跳动推荐的围绕数组与排序方面的题目的总结。</p>
+<p>数组中常用的算法思想：</p>
+<ul>
+<li>二分法：可以有效降低时间复杂度</li>
+<li>深度优先搜索， 通常很有用</li>
+<li>广度有限搜索，很常用</li>
+</ul>
+<a id="more"></a>
+<h2 id="三数之和"><a href="#三数之和" class="headerlink" title="三数之和"></a>三数之和</h2><p>给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。</p>
+<p>注意：答案中不可以包含重复的三元组。</p>
+<p>例如, 给定数组 nums = [-1, 0, 1, 2, -1, -4]，</p>
+<p>满足要求的三元组集合为：<br>[<br>  [-1, 0, 1],<br>  [-1, -1, 2]<br>]</p>
+<p>直接从左到右遍历每种组合，时间复杂度是O(N^3),先对数组排序，再采用双指针可以降低时间复杂度。排序算法的时间复杂度是O(nlogn),双向查找的时间复杂度是O(n^2)。三数之和为０，符号必定不能一样，全０除外。排序后，如果当前的和小于０，则左指针+1;如果当前和大于０，则右指针－１。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; threeSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">    sort(nums.begin(),nums.end());</span><br><span class="line">    <span class="built_in">set</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; s;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.size();i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//vector&lt;int&gt; tmp;</span></span><br><span class="line">        <span class="keyword">int</span> l=<span class="number">0</span>,r=nums.size()<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">while</span>(l&lt;r)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(l==i) <span class="keyword">break</span>; <span class="comment">//相同数字</span></span><br><span class="line">            <span class="keyword">if</span>(r==i) <span class="keyword">break</span>;</span><br><span class="line">            sum = nums[l]+nums[i]+nums[r];</span><br><span class="line">            <span class="keyword">if</span>(sum==<span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                s.insert(&#123;nums[l],nums[i],nums[r]&#125;);</span><br><span class="line">                l++;</span><br><span class="line">                r--;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(sum&lt;<span class="number">0</span>) l++;</span><br><span class="line">            <span class="keyword">else</span> r--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; res(s.begin(), s.end());</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="岛屿最大面积"><a href="#岛屿最大面积" class="headerlink" title="岛屿最大面积"></a>岛屿最大面积</h2><p>深度优先搜索的应用。不是特别理解，需要加强，这种题目非常常见！！！感觉递归程序都不是很好写也不好懂。</p>
+<p>给定一个包含了一些 0 和 1的非空二维数组 grid , 一个 岛屿 是由四个方向 (水平或垂直) 的 1 (代表土地) 构成的组合。你可以假设二维矩阵的四个边缘都被水包围着。</p>
+<p>找到给定的二维数组中最大的岛屿面积。(如果没有岛屿，则返回面积为0。)</p>
+<p>示例 1:</p>
+<p>[[0,0,1,0,0,0,0,1,0,0,0,0,0],<br><br> [0,0,0,0,0,0,0,1,1,1,0,0,0],<br><br> [0,1,1,0,1,0,0,0,0,0,0,0,0],<br><br> [0,1,0,0,1,1,0,0,1,0,1,0,0],<br><br> [0,1,0,0,1,1,0,0,1,1,1,0,0],<br><br> [0,0,0,0,0,0,0,0,0,0,1,0,0],<br><br> [0,0,0,0,0,0,0,1,1,1,0,0,0],<br><br> [0,0,0,0,0,0,0,1,1,0,0,0,0]]</p>
+<p>对于上面这个给定矩阵应返回 6。注意答案不应该是11，因为岛屿只能包含水平或垂直的四个方向的‘1’。</p>
+<p>示例 2:</p>
+<p>[[0,0,0,0,0,0,0,0]]<br>对于上面这个给定的矩阵, 返回 0。</p>
+<p>注意: 给定的矩阵grid 的长度和宽度都不超过 50。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxAreaOfIsland</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; grid)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> area=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">unsigned</span> <span class="keyword">int</span> i=<span class="number">0</span>;i&lt;grid.size();i++)</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">unsigned</span> <span class="keyword">int</span> j=<span class="number">0</span>;j&lt;grid[<span class="number">0</span>].size();j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(grid[i][j]==<span class="number">1</span>)</span><br><span class="line">                area = max(area, dfs(grid, i, j));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> area;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;grid, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(i&gt;=<span class="number">0</span> &amp;&amp; i&lt;grid.size() &amp;&amp; j&gt;=<span class="number">0</span> &amp;&amp; j&lt;grid[<span class="number">0</span>].size()&amp;&amp;grid[i][j]==<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        grid[i][j] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>+dfs(grid,i<span class="number">-1</span>,j)+dfs(grid,i+<span class="number">1</span>,j)+dfs(grid,i,j+<span class="number">1</span>)+dfs(grid,i,j<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;<span class="comment">//递归结束返回值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="搜索旋转排序数组"><a href="#搜索旋转排序数组" class="headerlink" title="搜索旋转排序数组"></a>搜索旋转排序数组</h2><p>假设按照升序排序的数组在预先未知的某个点上进行了旋转。<br>二分查找。题目小技巧，旋转一次的数组，每次二分后，总有一个数组是有序的，对于有序的部分直接使用二分法就可以了；对于无序的部分，由于数组是把左边的小的部分旋转到右边，所以无序的序列有两种情况：left&gt;mid, left&lt;mid 。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums.empty()) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> left=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> mid,right=nums.size()<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">if</span>(target==nums[<span class="number">0</span>]) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(target==nums[right]) <span class="keyword">return</span> right;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(left&lt;=right)</span><br><span class="line">    &#123;</span><br><span class="line">        mid=(left+right)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(nums[mid]==target) <span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">if</span>(nums[right]==target) <span class="keyword">return</span> right;</span><br><span class="line">        <span class="keyword">if</span>(nums[left]==target) <span class="keyword">return</span> left;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(nums[left]&lt;nums[right])<span class="comment">//order</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[mid]&lt;target) left=mid+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> right=mid<span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span><span class="comment">//unorder</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[left]&lt;nums[mid])<span class="comment">//case 1</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[left]&lt;target &amp;&amp; target &lt; nums[mid]) right=mid<span class="number">-1</span>;</span><br><span class="line">                <span class="keyword">else</span> left=mid+<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span><span class="comment">//case 2</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[mid]&lt;target &amp;&amp; target&lt;nums[right]) left=mid+<span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> right=mid<span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="朋友圈"><a href="#朋友圈" class="headerlink" title="朋友圈"></a>朋友圈</h2><p>并查集的应用。并查集用于处理不想交集合的数据结构。每个集合中的第一个元素代表该集合的标记。初始状态每个元素各自为一个集合，根节点就是自己。并查集主要包括两个操作：</p>
+<ul>
+<li>union(x,y) 将y合并到x所在的集合中</li>
+<li>find(x) 查找x所在的集合</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">union(x,y)</span><br><span class="line">&#123;</span><br><span class="line">    p1 = find(x);</span><br><span class="line">    p2 = find(y);</span><br><span class="line">    if(p1!=p2)</span><br><span class="line">        root[p2]=p1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">find(x)</span><br><span class="line">&#123;</span><br><span class="line">    fx=root[x];//x的父亲节点</span><br><span class="line">    if(fx!=x)//不是根节点</span><br><span class="line">        fx=find(root[x])//递归查找</span><br><span class="line">    return fx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="排列问题"><a href="#排列问题" class="headerlink" title="排列问题"></a>排列问题</h2><p>排列问题可以单独作为一节来总结。参考<a href="https://www.jianshu.com/p/caab81a83237" target="_blank" rel="noopener">博客</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/11/07/2018-11-7-LeetCode-Summary-Array/" data-id="cjv8u8wzl000559bt9flolvh9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/12/2018-10-20-HuaweiCodeCraft-Summary-(1)/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          2018 华为软件精英挑战赛总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/11/07/2018-11-7-LeetCode-Summary-string/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">LeetCode-Summary-string</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DSA/">DSA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/LeetCode/">LeetCode</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Meachine-Learning/">Meachine Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tensorflow/">Tensorflow</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/c/">c++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/paper/">paper</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/reinforce-learning/">reinforce learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/比赛/">比赛</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/编译原理/">编译原理</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/03/leetcode/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/code/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-orderMatters/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-3-28－强化学习概览/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-1-14-keras-learningScript/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Fang Wei<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

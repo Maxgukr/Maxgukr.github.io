@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>intuition to Policy-Gradient | Maxwei | My personal blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="强化学习之策略梯度方法之前介绍的强化学习的方法都是基于动作值函数的方法，他们学习每个动作对应的奖赏值，然后根据估计的动作值来选择要输出的动作，得到反馈更新动作值。没有动作值的估计，对应的策略也不复存在。在这一部分，将介绍参数化的策略估计方法，直接估计策略函数，不需要考虑值函数。但值函数可能任然需要被使用去学习策略函数的参数，但不会基于动作值函数来做动作选择。">
+<meta name="keywords" content="strive seek find">
+<meta property="og:type" content="article">
+<meta property="og:title" content="intuition to Policy-Gradient">
+<meta property="og:url" content="http://yoursite.com/2019/01/15/2019-1-18-PG/index.html">
+<meta property="og:site_name" content="Maxwei | My personal blog">
+<meta property="og:description" content="强化学习之策略梯度方法之前介绍的强化学习的方法都是基于动作值函数的方法，他们学习每个动作对应的奖赏值，然后根据估计的动作值来选择要输出的动作，得到反馈更新动作值。没有动作值的估计，对应的策略也不复存在。在这一部分，将介绍参数化的策略估计方法，直接估计策略函数，不需要考虑值函数。但值函数可能任然需要被使用去学习策略函数的参数，但不会基于动作值函数来做动作选择。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-03T14:55:17.605Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="intuition to Policy-Gradient">
+<meta name="twitter:description" content="强化学习之策略梯度方法之前介绍的强化学习的方法都是基于动作值函数的方法，他们学习每个动作对应的奖赏值，然后根据估计的动作值来选择要输出的动作，得到反馈更新动作值。没有动作值的估计，对应的策略也不复存在。在这一部分，将介绍参数化的策略估计方法，直接估计策略函数，不需要考虑值函数。但值函数可能任然需要被使用去学习策略函数的参数，但不会基于动作值函数来做动作选择。">
+  
+    <link rel="alternate" href="/atom.xml" title="Maxwei | My personal blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Maxwei | My personal blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Succes is not final, failure is not fatal. It is the courage to continiue that counts.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2019-1-18-PG" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/15/2019-1-18-PG/" class="article-date">
+  <time datetime="2019-01-14T16:00:00.000Z" itemprop="datePublished">2019-01-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/reinforce-learning/">reinforce learning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      intuition to Policy-Gradient
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="强化学习之策略梯度方法"><a href="#强化学习之策略梯度方法" class="headerlink" title="强化学习之策略梯度方法"></a>强化学习之策略梯度方法</h1><p>之前介绍的强化学习的方法都是基于动作值函数的方法，他们学习每个动作对应的奖赏值，然后根据估计的动作值来选择要输出的动作，得到反馈更新动作值。没有动作值的估计，对应的策略也不复存在。在这一部分，将介绍参数化的策略估计方法，直接估计策略函数，不需要考虑值函数。但值函数可能任然需要被使用去学习策略函数的参数，但不会基于动作值函数来做动作选择。</p>
+<a id="more"></a>
+<p>策略函数的参数向量：</p>
+<p>$$<br>\theta \in \R^{d}<br>$$</p>
+<p>动作概率：</p>
+<p>$$<br>\pi(a|s.\theta) = Pr{A_t=a|S_t=s, \theta_t=\theta}<br>$$</p>
+<p>表示在t时刻，状态为s，参数向量为$\theta$的条件下，输出动作a的概率。</p>
+<p>如果一个方法同时使用了学习好的值函数，值函数的权重向量为：</p>
+<p>$$<br>\omega \in \R^d<br>$$</p>
+<p>$$<br>\hat{V}(s,\omega)<br>$$</p>
+<p>在这一部分，我们利用标量的性能估计函数$J(\theta)$的梯度来学习策略函数的参数$\theta$</p>
+<h2 id="策略逼近和他的优势所在"><a href="#策略逼近和他的优势所在" class="headerlink" title="策略逼近和他的优势所在"></a>策略逼近和他的优势所在</h2><p>在策略梯度方法中，策略可以以任何方式来参数化，只要策略函数对参数$\theta$是可微分的。在本章节中，介绍在离散动作空间中最常用的参数化策略的方法并指针和动作值函数估计方法的相比，策略梯度的优势。策略梯度的方法同样也适用与连续动作空间。</p>
+<p>当动作是离散而且不大的时候，一个很自然的用来参数化的想法是数值性能来代表每一个动作－状态对的概率。在每个状态中有更高性能的动作被赋予更大的概率。比如可以用softmax函数来衡量动作的性能。</p>
+<p>使用参数化策略的方法的优势在于：</p>
+<ul>
+<li>可以输出确定的动作。相反在动作值估计的方法，使用$\epsilon－greedy$方法有一定的概率选择随机的动作。</li>
+<li>相比动作值函数，策略的函数逼近更容易</li>
+<li>可以将先验知识注入强化学习中</li>
+<li>策略梯度可以处理连续的动作空间，Ｑ-learning只能处理有限状态空间</li>
+<li>策略梯度直接对策略进行改进，基于值函数的方式都是根据动作状态值选择对应的动作输出，隐式的改善策略，而策略梯度的方法是一种直接改变策略的方法，更直接明了。</li>
+</ul>
+<p>通常来说，policy-gradient方法在Atari游戏中的变现要好于DQN模型。</p>
+<h2 id="策略梯度的理论"><a href="#策略梯度的理论" class="headerlink" title="策略梯度的理论"></a>策略梯度的理论</h2><h3 id="简单的梯度上升"><a href="#简单的梯度上升" class="headerlink" title="简单的梯度上升"></a>简单的梯度上升</h3><p>除了实际的相对与$\epsilon－greedy$动作选择的优势，策略梯度也有理论上的优势。由于连续的策略，作为函数要学习的参数，参数化的动作概率可以平滑的改变。更大的优势在于，相对于动作值的方法，策略梯度可以更大程度上保证收敛。</p>
+<p>本文想要以一种更直观的角度来讲解PG这种方法，尽量少的公式推导。</p>
+<p>先明确一些符号的意义：</p>
+<ul>
+<li>$\pi_{\theta}(a,s)$ 状态s输出动作a的概率，$\theta$为需要学习的参数</li>
+<li>t 代表迭代次数，$\theta_t$ 到　$\theta_{t+1}$的过程称为两次迭代之间的更新</li>
+</ul>
+<p>PG的目标是通过更新$\theta$的值，使输出最优动作$a^*$的概率接近１. $\pi_{\theta}$是一个函数，需要输出的值尽量大，可以采用梯度上升的方法，更新过程定义如下：</p>
+<p>$$\theta_{t+1} = \theta_t + \alpha \nabla \pi_{\theta_t}(a^*,s)$$</p>
+<p>梯度项$\nabla \pi_{\theta_t}(a^<em>|s)$的含义就是向可以使$\pi_{\theta_t}(a^</em>|s)$的值增加最快的方向更新$\theta$。</p>
+<h3 id="对梯度加权"><a href="#对梯度加权" class="headerlink" title="对梯度加权"></a>对梯度加权</h3><p>在实际中，并不知道那个动作是最好的，一种解决办法是采用具有更大的动作值的动作，这个动作值是在该动作下的一种近似逼近，可以用来衡量输出动作的好坏。这样保证策略最后收敛到１！</p>
+<p>假设在状态s输出动作a对应的动作值为$Q^*(a,s)$。这和Q-learning的学习过程非常相似，但是有一点细微的重要的不同，稍后会详细分析，接下来假定Ｑ函数是已经给定了。在每一个策略梯度上应用对应的动作值函数，可以得到改进的更新过程：</p>
+<p>$$\theta_{t+1} = \theta_t + \alpha Q^<em>(a,s)\nabla \pi_{\theta_t}(a^</em>,s)$$<br>　<br>上述过程依然存在问题:虽然可以向着有更大的动作值的方向更新$\theta_t$，但是也有这样一种异常情况出现：当动作值很小的动作却被赋予了更高的出现概率时，$\theta_t$会向着动作值更低的方向更新，因为概率更大导致乘积增大。</p>
+<p>这就告诉我们，需要对动作值函数进行补偿，让动作值更大的动作得到更高的出场概率。很简单，我们在策略的偏导数下除以策略函数本身，抵消概率常数因子带来的影响：</p>
+<p>$$\theta_{t+1} = \theta_t + \alpha \frac{Q^<em>(a,s)\nabla \pi_{\theta_t}(a^</em>|s)}{\pi_{\theta_t}(a^*|s)}$$</p>
+<p>改变一下上面表达式的写法，就得到了一般的policy gradietn 参数更新方法：</p>
+<p>$$\theta_{t+1} = \theta_t + \alpha Q^<em>(a,s)\log \nabla_{\theta} \pi_{\theta_t}(a^</em>|s)$$</p>
+<p>写成对数函数有两点好处：</p>
+<ul>
+<li>使policy gradient的含义模糊不清，增加其神秘色彩，营造高大上的氛围</li>
+<li>重新定义损失函数 $L= -A(s,a)log \pi_{\theta}(s|a)$, 可以使用标准的梯度下降算法训练模型。</li>
+</ul>
+<h2 id="Advantage-Function-and-Baseline"><a href="#Advantage-Function-and-Baseline" class="headerlink" title="Advantage Function and Baseline"></a>Advantage Function and Baseline</h2><p>现在来讲一讲policy－gradient中另一个很重要的部分，优势函数A(s,a)和baseline。熟悉Q-learning的都知道，Q(s,a)代表在状态s追随策略$\pi_{\theta}$执行动作a后得到的累计折扣奖赏(cumulated discounted reward),　V(s)代表状态值函数，表示从状态s开始，跟随策略$\pi(s)$得到的累计折扣奖赏。</p>
+<p>如果仅仅用上述两者方法之一作为策略梯度的权重来更新参数，会出先一个问题：无法去除估计值的噪声对更新策略参数的影响。比如，有很多动作值比较接近，有100,101,102等等，在应用到更新梯度参数时，无法知道哪个动作是更好的，哪个是有问题的，因为在某一次中可能选中了100对应的动作而忽略了其他动作对应的值。</p>
+<p>在经典的REINFORCE算法中，将估计值Q(s,a)减去任意一个baseline函数都可以达到很好的效果，只要这个baseline与选取的动作无关，是独立的，甚至是随机变量都可以。非常推荐在policy-gradient中使用baseline方法，可以有效的减小梯度更新时的方差。</p>
+<p>简单证明一下为什么任意与动作a无关的baseline都可以：</p>
+<p>$$\sum_ab(s) \nabla\pi_{\theta}(a|s)=b(s)\sum_a \nabla\pi_{\theta}(a|s)=b(s)\nabla\sum_a\pi_{\theta}(a|s)=b(s)\nabla1=0$$</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/15/2019-1-18-PG/" data-id="cjv8u8wzx000j59bt4u00u5tn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/01/15/2019-1-15-paper-reading-ncp/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          paper reading solve combination problem with NN and RL
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/01/15/项目二补充说明/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Learning To Solve Routing　Problem</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DSA/">DSA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/LeetCode/">LeetCode</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Meachine-Learning/">Meachine Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tensorflow/">Tensorflow</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/c/">c++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/paper/">paper</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/reinforce-learning/">reinforce learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/比赛/">比赛</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/编译原理/">编译原理</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/03/leetcode/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/code/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-orderMatters/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-3-28－强化学习概览/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-1-14-keras-learningScript/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Fang Wei<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>TensorFlow-import-data | Maxwei | My personal blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Importing Data利用tf.data API 接口可以很方便的建立复杂的输入管道，不论是图像数据、文本数据还是序列数据，利用tf.data都可以很简单的处理大量的数据，不同类型的数据，以及完成复杂的数据转换。 tf.data引入了两种抽象的方法：  tf.data.Dataset 这个代表了一系列的包含很多张量的元素，比如对图像管道，一个元素就是一个训练样本，代表图像数据的张量和一组标签">
+<meta name="keywords" content="strive seek find">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow-import-data">
+<meta property="og:url" content="http://yoursite.com/2017/10/06/2017-10-6-TensorFlow-import_data/index.html">
+<meta property="og:site_name" content="Maxwei | My personal blog">
+<meta property="og:description" content="Importing Data利用tf.data API 接口可以很方便的建立复杂的输入管道，不论是图像数据、文本数据还是序列数据，利用tf.data都可以很简单的处理大量的数据，不同类型的数据，以及完成复杂的数据转换。 tf.data引入了两种抽象的方法：  tf.data.Dataset 这个代表了一系列的包含很多张量的元素，比如对图像管道，一个元素就是一个训练样本，代表图像数据的张量和一组标签">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-03T14:51:13.200Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TensorFlow-import-data">
+<meta name="twitter:description" content="Importing Data利用tf.data API 接口可以很方便的建立复杂的输入管道，不论是图像数据、文本数据还是序列数据，利用tf.data都可以很简单的处理大量的数据，不同类型的数据，以及完成复杂的数据转换。 tf.data引入了两种抽象的方法：  tf.data.Dataset 这个代表了一系列的包含很多张量的元素，比如对图像管道，一个元素就是一个训练样本，代表图像数据的张量和一组标签">
+  
+    <link rel="alternate" href="/atom.xml" title="Maxwei | My personal blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Maxwei | My personal blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Succes is not final, failure is not fatal. It is the courage to continiue that counts.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2017-10-6-TensorFlow-import_data" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/06/2017-10-6-TensorFlow-import_data/" class="article-date">
+  <time datetime="2017-10-06T14:29:08.000Z" itemprop="datePublished">2017-10-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Tensorflow/">Tensorflow</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      TensorFlow-import-data
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Importing-Data"><a href="#Importing-Data" class="headerlink" title="Importing Data"></a>Importing Data</h1><p>利用tf.data API 接口可以很方便的建立复杂的输入管道，不论是图像数据、文本数据还是序列数据，利用tf.data都可以很简单的处理大量的数据，不同类型的数据，以及完成复杂的数据转换。</p>
+<p>tf.data引入了两种抽象的方法：</p>
+<ul>
+<li><p>tf.data.Dataset 这个代表了一系列的包含很多张量的元素，比如对图像管道，一个元素就是一个训练样本，代表图像数据的张量和一组标签。创建一个dataset的方法主要有两种：</p>
+<ul>
+<li>Dataset.from_tensor_slices() 从一个或多个张量对象中创建dataset</li>
+<li>Dataset.batch() 应用转换的方法。从Dataset对象中创建</li>
+</ul>
+</li>
+<li>tf.data.Iterator() 提供了从dataset中提取元素的主要方法。当Dataset执行的时候，通过调用Iterator.get_next(),可以得到下一个元素。</li>
+</ul>
+<p>本节讲述的是怎样创建各种不同的dataset和iterator并从中提取数据。</p>
+<a id="more"></a>
+<h2 id="Import-data"><a href="#Import-data" class="headerlink" title="Import data"></a>Import data</h2><p>如果你的数据可以一次性的导入到内存之中，可以利用</p>
+<ul>
+<li>tf.data.Dateset.from_tensor()</li>
+<li>tf.data.Dataset.from_tendor_slices()</li>
+</ul>
+<p>来导入数据。否则可以使用</p>
+<ul>
+<li>tf.data.Dataset.TFRecordDataset()</li>
+</ul>
+<p>来导入数据.</p>
+<p>dataset中包含有具有同种结构的元素，每个元素包含一个或多个张量，即tf.Tensor对像。每个元素具有两种属性：</p>
+<ul>
+<li>tf.Dtype</li>
+<li>tf.Tensorshape</li>
+</ul>
+<p>可以通过对应的方法来访问两种属性：</p>
+<ul>
+<li>Dataset.output_types</li>
+<li>Dataset.output_shapes</li>
+</ul>
+<h2 id="Creating-an-iterator"><a href="#Creating-an-iterator" class="headerlink" title="Creating an iterator"></a>Creating an iterator</h2><p>使用Dataset中数据最常用的方法是创建一个Iterator对象，它提供了一次访问dataset中一个数据的方法。一个Iterator对象提供了两个操作：</p>
+<ul>
+<li>Iterator.Intializer() 用来初始化迭代状态</li>
+<li>Iterator.get_next() 返回dataset中下一元素的tf.Tensor对象。</li>
+</ul>
+<p>一旦创建了代表输入数据的Dataset对象，下一步就是创建一个Iterator去访问Dataset中的每个元素。tf.data一共支持4中类型的Iterator:</p>
+<ul>
+<li><p>one-shot 一次遍历整个dataset, 不需要显示的初始化。可以处理几乎所有基于队列输入的管道数据，但是不支持参数化的输入。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dataset = tf.data.Dataset.range(<span class="number">100</span>)</span><br><span class="line">iterator = dataset.make_one_shot_iterator()</span><br><span class="line">next_element = iterator.get_next()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">  value = sess.run(next_element)</span><br><span class="line">  <span class="keyword">assert</span> i == value</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>initializable 需要显示的初始化操作 iterator.initializer(), 允许参数化定义dataset, 即使用tf.placeholder()。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">max_value = tf.placeholder(tf.int64, shape=[])</span><br><span class="line">dataset = tf.data.Dataset.range(max_value)</span><br><span class="line">iterator = dataset.make_initializable_iterator()</span><br><span class="line">next_element = iterator.get_next()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Initialize an iterator over a dataset with 10 elements.</span></span><br><span class="line">sess.run(iterator.initializer, feed_dict=&#123;max_value: <span class="number">10</span>&#125;)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">  value = sess.run(next_element)</span><br><span class="line">  <span class="keyword">assert</span> i == value</span><br><span class="line"></span><br><span class="line"><span class="comment"># Initialize the same iterator over a dataset with 100 elements.</span></span><br><span class="line">sess.run(iterator.initializer, feed_dict=&#123;max_value: <span class="number">100</span>&#125;)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">  value = sess.run(next_element)</span><br><span class="line">  <span class="keyword">assert</span> i == value</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>reinitializable 可以初始化多个不同的dataset对象。比如讲数据集划分为训练集个验=验证集，他们是不同的Dataset对象，但是有想用的结构。reinitializable iterator是通过结构来定义的，亦即tf.data.Iterator.from_structure()</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Define training and validation datasets with the same structure.</span></span><br><span class="line">training_dataset = tf.data.Dataset.range(<span class="number">100</span>).map(</span><br><span class="line">    <span class="keyword">lambda</span> x: x + tf.random_uniform([], <span class="number">-10</span>, <span class="number">10</span>, tf.int64))</span><br><span class="line">validation_dataset = tf.data.Dataset.range(<span class="number">50</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># A reinitializable iterator is defined by its structure. We could use the</span></span><br><span class="line"><span class="comment"># `output_types` and `output_shapes` properties of either `training_dataset`</span></span><br><span class="line"><span class="comment"># or `validation_dataset` here, because they are compatible.</span></span><br><span class="line">iterator = tf.data.Iterator.from_structure(training_dataset.output_types,</span><br><span class="line">                                           training_dataset.output_shapes)</span><br><span class="line">next_element = iterator.get_next()</span><br><span class="line"></span><br><span class="line">training_init_op = iterator.make_initializer(training_dataset)</span><br><span class="line">validation_init_op = iterator.make_initializer(validation_dataset)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Run 20 epochs in which the training dataset is traversed, followed by the</span></span><br><span class="line"><span class="comment"># validation dataset.</span></span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">20</span>):</span><br><span class="line">  <span class="comment"># Initialize an iterator over the training dataset.</span></span><br><span class="line">  sess.run(training_init_op)</span><br><span class="line">  <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">    sess.run(next_element)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Initialize an iterator over the validation dataset.</span></span><br><span class="line">  sess.run(validation_init_op)</span><br><span class="line">  <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">50</span>):</span><br><span class="line">    sess.run(next_element)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>feedable 可以和tf.placeholder()一起用于选择Iterator用于tf.Session.run(), 通过配置feed_dict参数。它提供了和reinitialzable类似的功能， 但是不需要开始切换iterator的时候初始化。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Define training and validation datasets with the same structure.</span></span><br><span class="line">training_dataset = tf.data.Dataset.range(<span class="number">100</span>).map(</span><br><span class="line">    <span class="keyword">lambda</span> x: x + tf.random_uniform([], <span class="number">-10</span>, <span class="number">10</span>, tf.int64)).repeat()</span><br><span class="line">validation_dataset = tf.data.Dataset.range(<span class="number">50</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># A feedable iterator is defined by a handle placeholder and its structure. We</span></span><br><span class="line"><span class="comment"># could use the `output_types` and `output_shapes` properties of either</span></span><br><span class="line"><span class="comment"># `training_dataset` or `validation_dataset` here, because they have</span></span><br><span class="line"><span class="comment"># identical structure.</span></span><br><span class="line">handle = tf.placeholder(tf.string, shape=[])</span><br><span class="line">iterator = tf.data.Iterator.from_string_handle(</span><br><span class="line">    handle, training_dataset.output_types, training_dataset.output_shapes)</span><br><span class="line">next_element = iterator.get_next()</span><br><span class="line"></span><br><span class="line"><span class="comment"># You can use feedable iterators with a variety of different kinds of iterator</span></span><br><span class="line"><span class="comment"># (such as one-shot and initializable iterators).</span></span><br><span class="line">training_iterator = training_dataset.make_one_shot_iterator()</span><br><span class="line">validation_iterator = validation_dataset.make_initializable_iterator()</span><br><span class="line"></span><br><span class="line"><span class="comment"># The `Iterator.string_handle()` method returns a tensor that can be evaluated</span></span><br><span class="line"><span class="comment"># and used to feed the `handle` placeholder.</span></span><br><span class="line">training_handle = sess.run(training_iterator.string_handle())</span><br><span class="line">validation_handle = sess.run(validation_iterator.string_handle())</span><br><span class="line"></span><br><span class="line"><span class="comment"># Loop forever, alternating between training and validation.</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">  <span class="comment"># Run 200 steps using the training dataset. Note that the training dataset is</span></span><br><span class="line">  <span class="comment"># infinite, and we resume from where we left off in the previous `while` loop</span></span><br><span class="line">  <span class="comment"># iteration.</span></span><br><span class="line">  <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">200</span>):</span><br><span class="line">    sess.run(next_element, feed_dict=&#123;handle: training_handle&#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Run one pass over the validation dataset.</span></span><br><span class="line">  sess.run(validation_iterator.initializer)</span><br><span class="line">  <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">50</span>):</span><br><span class="line">    sess.run(next_element, feed_dict=&#123;handle: validation_handle&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="Batching-dataset-elements"><a href="#Batching-dataset-elements" class="headerlink" title="Batching dataset elements"></a>Batching dataset elements</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">inc_dataset = tf.data.Dataset.range(<span class="number">100</span>)</span><br><span class="line">dec_dataset = tf.data.Dataset.range(<span class="number">0</span>, <span class="number">-100</span>, <span class="number">-1</span>)</span><br><span class="line">dataset = tf.data.Dataset.zip((inc_dataset, dec_dataset))</span><br><span class="line">batched_dataset = dataset.batch(<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">iterator = batched_dataset.make_one_shot_iterator()</span><br><span class="line">next_element = iterator.get_next()</span><br><span class="line"></span><br><span class="line">print(sess.run(next_element))  <span class="comment"># ==&gt; ([0, 1, 2,   3],   [ 0, -1,  -2,  -3])</span></span><br><span class="line">print(sess.run(next_element))  <span class="comment"># ==&gt; ([4, 5, 6,   7],   [-4, -5,  -6,  -7])</span></span><br><span class="line">print(sess.run(next_element))  <span class="comment"># ==&gt; ([8, 9, 10, 11],   [-8, -9, -10, -11])</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/10/06/2017-10-6-TensorFlow-import_data/" data-id="cjv8u8wze000159btdynwbs6o" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/10/10/2017-10-5-TensorFlow-base-1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          TensorFlow-import-data
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DSA/">DSA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/LeetCode/">LeetCode</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Meachine-Learning/">Meachine Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tensorflow/">Tensorflow</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/c/">c++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/paper/">paper</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/reinforce-learning/">reinforce learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/比赛/">比赛</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/编译原理/">编译原理</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/03/leetcode/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/code/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-orderMatters/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-3-28－强化学习概览/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-1-14-keras-learningScript/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Fang Wei<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

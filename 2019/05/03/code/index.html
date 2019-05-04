@@ -7,17 +7,20 @@
   
   <title>Maxwei | My personal blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="希望可以在这里记录自己成长">
+  <meta name="description" content="123456789101112def findMin(self, num):        left, right = 0, len(num) - 1        while left &amp;lt; right and num[left] &amp;gt; num[right]:            mid = (left + right) // 2            # mid指在second中">
 <meta name="keywords" content="strive seek find">
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Maxwei | My personal blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/05/03/code/index.html">
 <meta property="og:site_name" content="Maxwei | My personal blog">
-<meta property="og:description" content="希望可以在这里记录自己成长">
+<meta property="og:description" content="123456789101112def findMin(self, num):        left, right = 0, len(num) - 1        while left &amp;lt; right and num[left] &amp;gt; num[right]:            mid = (left + right) // 2            # mid指在second中">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/insert_in_string.png">
+<meta property="og:updated_time" content="2019-03-28T13:56:33.945Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Maxwei | My personal blog">
-<meta name="twitter:description" content="希望可以在这里记录自己成长">
+<meta name="twitter:description" content="123456789101112def findMin(self, num):        left, right = 0, len(num) - 1        while left &amp;lt; right and num[left] &amp;gt; num[right]:            mid = (left + right) // 2            # mid指在second中">
+<meta name="twitter:image" content="http://yoursite.com/img/insert_in_string.png">
   
     <link rel="alternate" href="/atom.xml" title="Maxwei | My personal blog" type="application/atom+xml">
   
@@ -68,40 +71,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-leetcode" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/05/03/leetcode/" class="article-date">
-  <time datetime="2019-05-03T14:41:51.932Z" itemprop="datePublished">2019-05-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="leetcode-刷题"><a href="#leetcode-刷题" class="headerlink" title="leetcode 刷题"></a>leetcode 刷题</h1>
-        
-          <p class="article-more-link">
-            <a href="/2019/05/03/leetcode/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/05/03/leetcode/" data-id="cjv8u8x0e001659bt4axpxtq6" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-code" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-code" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/05/03/code/" class="article-date">
   <time datetime="2019-05-03T14:41:51.924Z" itemprop="datePublished">2019-05-03</time>
@@ -125,333 +95,28 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-2019-orderMatters" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/05/03/2019-orderMatters/" class="article-date">
-  <time datetime="2019-05-03T14:41:51.920Z" itemprop="datePublished">2019-05-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="顺序相关－集合的序列到序列的模型"><a href="#顺序相关－集合的序列到序列的模型" class="headerlink" title="顺序相关－集合的序列到序列的模型"></a>顺序相关－集合的序列到序列的模型</h1><p>#＃ 摘要<br>序列问题在监督问题中再次兴起起来，由于循环神经网络的兴起。许多复杂的任务，诸如需要在输入输出端对序列进行建模，现在都可以用seq2seq的框架来解决。这种方法利用贝叶斯规则来高效的表达序列的联合概率分布。然而在许多情况下，可变长度的输入输出不能很自然的表达成序列。例如，目前尚不清楚如何将一组数字输入到模型中任务是对它们进行排序; 同样，当输出值对应于随机变量时我们不知道如何组织输出，任务是模拟它们的未知的联合分步概率。在这篇文章中，我们研究了很多例子，在这些例子中，输入输出的顺序非常重要。此外，我们提出了一个损失函数，通过在训练的时候遍历可能的所有顺序，解决输出集结构上的缺失。</p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>序列到序列模型都有一个基本的框架：输入端的词向量经过embedding后经过一个由lstm网络构成的encoder，encoder的最后一个状态送入另一个称之为decoder的lstm网络，生成一个目标序列，每个时间步生成一个符号。</p>
-<h2 id="4-input-sets"><a href="#4-input-sets" class="headerlink" title="4. input sets"></a>4. input sets</h2><p>这一部分研究对输入端编码器的扩展。就像在前文讨论过的那样，序列可以被一个循环神经网络读入，将其内容压缩成一个向量。当输入是一个集合的时候，我们需要保证一个非常重要的属性，编码的过程对集合中元素的顺序不敏感。</p>
+    <a href="/2019/05/03/leetcode/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/05/03/2019-orderMatters/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/05/03/2019-orderMatters/" data-id="cjv8u8x0a001059bt7ubsp6ne" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-  
-    <article id="post-2019-3-28－强化学习概览" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/05/03/2019-3-28－强化学习概览/" class="article-date">
-  <time datetime="2019-05-03T14:41:51.900Z" itemprop="datePublished">2019-05-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="强化学习概览"><a href="#强化学习概览" class="headerlink" title="强化学习概览"></a>强化学习概览</h1>
-        
-          <p class="article-more-link">
-            <a href="/2019/05/03/2019-3-28－强化学习概览/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/05/03/2019-3-28－强化学习概览/" data-id="cjv8u8x04000s59btlj1cnlts" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2019-1-14-keras-learningScript" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/05/03/2019-1-14-keras-learningScript/" class="article-date">
-  <time datetime="2019-05-03T14:41:51.804Z" itemprop="datePublished">2019-05-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="keras-学习笔记－model"><a href="#keras-学习笔记－model" class="headerlink" title="keras 学习笔记－model"></a>keras 学习笔记－model</h1><p>新的keras的中，模型可以分为两种，一种叫sequential,称为序惯模型，序惯模型由各个层堆叠起来，一条路径走到底；一种叫Model,称为泛型模型，只要定义了输入和输出的都可以称之为模型。可以是单输入单输出，也可以是多输入多输出。sequential是Model的一种特殊形式。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/05/03/2019-1-14-keras-learningScript/" data-id="cjv8u8wzu000f59btpxqcrvro" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/05/03/hello-world/" class="article-date">
-  <time datetime="2019-05-03T14:09:05.792Z" itemprop="datePublished">2019-05-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/03/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/05/03/hello-world/" data-id="cjv8u8x0d001459bt807b3r2e" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2019-3-27-优化方法总结" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/03/27/2019-3-27-优化方法总结/" class="article-date">
-  <time datetime="2019-03-26T16:00:00.000Z" itemprop="datePublished">2019-03-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Meachine-Learning/">Meachine Learning</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/27/2019-3-27-优化方法总结/">总结几种常用优化器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="总结几种常用优化器"><a href="#总结几种常用优化器" class="headerlink" title="总结几种常用优化器"></a>总结几种常用优化器</h1>
-        
-          <p class="article-more-link">
-            <a href="/2019/03/27/2019-3-27-优化方法总结/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/27/2019-3-27-优化方法总结/" data-id="cjv8u8x02000o59bt1myjved6" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2019-3-27-深度学习中的正则化" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/03/27/2019-3-27-深度学习中的正则化/" class="article-date">
-  <time datetime="2019-03-26T16:00:00.000Z" itemprop="datePublished">2019-03-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Meachine-Learning/">Meachine Learning</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/27/2019-3-27-深度学习中的正则化/">深度学习中的正则化</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="深度学习中的正则化"><a href="#深度学习中的正则化" class="headerlink" title="深度学习中的正则化"></a>深度学习中的正则化</h1>
-        
-          <p class="article-more-link">
-            <a href="/2019/03/27/2019-3-27-深度学习中的正则化/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/27/2019-3-27-深度学习中的正则化/" data-id="cjv8u8x03000r59btnaixcofp" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2019-4-15-链接装载和库" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/03/27/2019-4-15-链接装载和库/" class="article-date">
-  <time datetime="2019-03-26T16:00:00.000Z" itemprop="datePublished">2019-03-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/编译原理/">编译原理</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/27/2019-4-15-链接装载和库/">链接装载和库(1)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="链接装载和库"><a href="#链接装载和库" class="headerlink" title="链接装载和库"></a>链接装载和库</h1><p>链接的主要内容就是把各个模块之间相互引用的部分处理好，使得各个模块之间能够正确的衔接。链接器所要做的工作就是把一些指令对其他符号地址的引用加以修正。<br>链接过程主要包括了：</p>
-<ul>
-<li><strong>地址和空间分配</strong></li>
-<li><strong>符号决议</strong></li>
-<li><strong>重定位</strong></li>
-</ul>
-        
-          <p class="article-more-link">
-            <a href="/2019/03/27/2019-4-15-链接装载和库/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/27/2019-4-15-链接装载和库/" data-id="cjv8u8x09000z59btf9jf45v0" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2019-3-19-逻辑回归和最大熵" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/03/19/2019-3-19-逻辑回归和最大熵/" class="article-date">
-  <time datetime="2019-03-18T16:00:00.000Z" itemprop="datePublished">2019-03-19</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Meachine-Learning/">Meachine Learning</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/19/2019-3-19-逻辑回归和最大熵/">逻辑回归和最大熵模型</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="逻辑回归和最大熵模型"><a href="#逻辑回归和最大熵模型" class="headerlink" title="逻辑回归和最大熵模型"></a>逻辑回归和最大熵模型</h1>
-        
-          <p class="article-more-link">
-            <a href="/2019/03/19/2019-3-19-逻辑回归和最大熵/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/19/2019-3-19-逻辑回归和最大熵/" data-id="cjv8u8x00000n59bt6lqmo4q5" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
-
-  <nav id="page-nav">
-    
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-  </nav>
 
 </section>
         

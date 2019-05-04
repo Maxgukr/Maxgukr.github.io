@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>shell learning basic | Maxwei | My personal blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="shell 学习笔记-基础篇">
+<meta name="keywords" content="strive seek find">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell learning basic">
+<meta property="og:url" content="http://yoursite.com/2019/03/08/2019-3-8-shell/index.html">
+<meta property="og:site_name" content="Maxwei | My personal blog">
+<meta property="og:description" content="shell 学习笔记-基础篇">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-03T14:55:57.765Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="shell learning basic">
+<meta name="twitter:description" content="shell 学习笔记-基础篇">
+  
+    <link rel="alternate" href="/atom.xml" title="Maxwei | My personal blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Maxwei | My personal blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Succes is not final, failure is not fatal. It is the courage to continiue that counts.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2019-3-8-shell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/08/2019-3-8-shell/" class="article-date">
+  <time datetime="2019-03-07T16:00:00.000Z" itemprop="datePublished">2019-03-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/shell/">shell</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      shell learning basic
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="shell-学习笔记-基础篇"><a href="#shell-学习笔记-基础篇" class="headerlink" title="shell 学习笔记-基础篇"></a>shell 学习笔记-基础篇</h1><a id="more"></a>
+<h2 id="passing-the-arguments-to-the-script"><a href="#passing-the-arguments-to-the-script" class="headerlink" title="passing the arguments to the script"></a>passing the arguments to the script</h2><p>当脚本被执行的时候，参数可以传递到脚本中。在脚本文件后用空格分隔符罗列出所有的参数就可以了。在脚本文件内引用参数也很简单，$1代表在命令行中的第一个参数，后面的依次类推。有两个特殊的引用，$#代表参数的个数，$@代表传递的包含空格分隔符的参数字符串。</p>
+<h2 id="Arrays"><a href="#Arrays" class="headerlink" title="Arrays"></a>Arrays</h2><p>一个数组可以在同一个命名下支持好几个数值，数组命名和变量命名的规则一样。数组的初始化如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">my_array=(apple banana "Fruit Basket" orange)</span><br></pre></td></tr></table></figure>
+<p>数组的长度表示为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>&#123;#arrayname[@]&#125;</span><br></pre></td></tr></table></figure>
+<p>数组索引：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span>&#123;my_array[index]&#125;</span><br></pre></td></tr></table></figure>
+<p>数组比较</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"><span class="meta">	#</span> enter your array comparison code here</span><br><span class="line"><span class="meta">	#</span> initialize arrays a b c</span><br><span class="line">	a=(3 5 8 10 6) </span><br><span class="line">	b=(6 5 4 12) </span><br><span class="line">	c=(14 7 5 7)</span><br><span class="line"><span class="meta">	#</span>comparison of first two arrays a and b</span><br><span class="line">	for x in "$&#123;a[@]&#125;"; do </span><br><span class="line">	  in=false </span><br><span class="line">	  for y in "$&#123;b[@]&#125;"; do </span><br><span class="line">	    if [ $x = $y ];then </span><br><span class="line">	      # assigning the matching results to new array z</span><br><span class="line">	      z[$&#123;#z[@]&#125;]=$x</span><br><span class="line">	    fi</span><br><span class="line">	  done </span><br><span class="line">	done</span><br><span class="line"><span class="meta">	#</span>comparison of third array c with new array z</span><br><span class="line">	for i in "$&#123;c[@]&#125;"; do </span><br><span class="line">	  in=false</span><br><span class="line">	  for k in "$&#123;z[@]&#125;"; do</span><br><span class="line">	    if [ $i = $k ];then</span><br><span class="line">	      # assigning the matching results to new array j</span><br><span class="line">	      j[$&#123;#j[@]&#125;]=$i</span><br><span class="line">	    fi</span><br><span class="line">	  done </span><br><span class="line">	done </span><br><span class="line"><span class="meta">	#</span> print content of array j</span><br><span class="line">	echo $&#123;j[@]&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="bacic-operator"><a href="#bacic-operator" class="headerlink" title="bacic operator"></a>bacic operator</h2><p>基本算术表达式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A=3</span><br><span class="line">B=$((100 * $A + 5)) # 305</span><br></pre></td></tr></table></figure>
+<h2 id="Basic-String-Operations"><a href="#Basic-String-Operations" class="headerlink" title="Basic String Operations"></a>Basic String Operations</h2><p>字符串长度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">STRING=&quot;this is a string&quot;</span><br><span class="line">echo $&#123;#STRING&#125;            # 16</span><br></pre></td></tr></table></figure>
+<p>字符串索引 找到子字符串在匹配字符串中任意单个字符相同的位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">STRING=&quot;this is a string&quot;</span><br><span class="line">SUBSTRING=&quot;hat&quot;</span><br><span class="line">expr index &quot;$STRING&quot; &quot;$SUBSTRING&quot;     # 1 is the position of the first &apos;t&apos; in $STRING</span><br></pre></td></tr></table></figure>
+<p>提取子串</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">STRING = "this is a string"</span><br><span class="line">pos = 1</span><br><span class="line">len = 3</span><br><span class="line">echo $&#123;STRING:$pos:$len&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> simple extraction</span><br><span class="line"><span class="meta">#</span> Code to extract the First name from the data record</span><br><span class="line">DATARECORD="last=Clifford,first=Johnny Boy,state=CA"</span><br><span class="line">COMMA1=`expr index "$DATARECORD" ','`  # 14 position of first comma</span><br><span class="line">CHOP1FIELD=$&#123;DATARECORD:$COMMA1&#125;       #</span><br><span class="line">COMMA2=`expr index "$CHOP1FIELD" ','`</span><br><span class="line">LENGTH=`expr $COMMA2 - 6 - 1` # 表达式赋值操作</span><br><span class="line">FIRSTNAME=$&#123;CHOP1FIELD:6:$LENGTH&#125;      # Johnny Boy</span><br><span class="line">echo $FIRSTNAME</span><br></pre></td></tr></table></figure>
+<p>子串替换</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 之替换第一次出现的</span><br><span class="line">STRING="to be or not to be"</span><br><span class="line">echo $&#123;STRING[@]/be/eat&#125;        # to eat or not to be</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 替换所有出现的</span><br><span class="line">STRING="to be or not to be"</span><br><span class="line">echo $&#123;STRING[@]//be/eat&#125;        # to eat or not to eat</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 删除所有出现</span><br><span class="line">STRING="to be or not to be"</span><br><span class="line">echo $&#123;STRING[@]// not/&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 删除第一次出现的</span><br><span class="line">STRING="to be or not to be"</span><br><span class="line">echo $&#123;STRING[@]//be/&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 替换在开头出现的子串</span><br><span class="line">STRING="to be or not to be"</span><br><span class="line">echo $&#123;STRING[@]/#to be/eat now&#125;    # eat now or not to be</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 替换在末尾出现的子串</span><br><span class="line">STRING="to be or not to be"</span><br><span class="line">echo $&#123;STRING[@]/%be/eat&#125;        # to be or not to eat</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 开头用#，末尾加％</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 用shell命令的输出来代替子串</span><br><span class="line">STRING="to be or not to be"</span><br><span class="line">echo $&#123;STRING[@]/%be/be on $(date +%Y-%m-%d)&#125;    # to be or not to be on 2012-06-14</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span># decision making</span><br><span class="line"></span><br><span class="line">基本的条件决策结构如下：</span><br><span class="line"></span><br><span class="line">```shell</span><br><span class="line">if [ expression ]; then</span><br><span class="line">    # code for expression is true</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">NAME="George"</span><br><span class="line">if [ "$NAME" = "John" ]; then # 判断相等可以用="也可以“==”,　前后要有空格分隔</span><br><span class="line">  echo "John Lennon"</span><br><span class="line">elif [ "$NAME" = "George" ]; then</span><br><span class="line">  echo "George Harrison"</span><br><span class="line">else</span><br><span class="line">  echo "This leaves us with Paul and Ringo"</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>case 结构判断语句</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">case "$variable" in</span><br><span class="line">    "$condition1" )</span><br><span class="line">        command...</span><br><span class="line">    ;;</span><br><span class="line">    "$condition2" )</span><br><span class="line">        command...</span><br><span class="line">    ;;</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+<h2 id="Loops"><a href="#Loops" class="headerlink" title="Loops"></a>Loops</h2><p>基本的for循环和while循环</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> basic construct</span><br><span class="line">for arg in [list]</span><br><span class="line">do</span><br><span class="line"> command(s)...</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">while [ condition ]</span><br><span class="line">do</span><br><span class="line"> command(s)...</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>循环中的break和continue</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> Prints out 0,1,2,3,4</span><br><span class="line"></span><br><span class="line">COUNT=0</span><br><span class="line">while [ $COUNT -ge 0 ]; do</span><br><span class="line">  echo "Value of COUNT is: $COUNT"</span><br><span class="line">  COUNT=$((COUNT+1))</span><br><span class="line">  if [ $COUNT -ge 5 ] ; then</span><br><span class="line">    break</span><br><span class="line">  fi</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Prints out only odd numbers - 1,3,5,7,9</span><br><span class="line">COUNT=0</span><br><span class="line">while [ $COUNT -lt 10 ]; do</span><br><span class="line">  COUNT=$((COUNT+1))</span><br><span class="line"><span class="meta">  #</span> Check if COUNT is even</span><br><span class="line">  if [ $(($COUNT % 2)) = 0 ] ; then</span><br><span class="line">    continue</span><br><span class="line">  fi</span><br><span class="line">  echo $COUNT</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h2 id="shell-function"><a href="#shell-function" class="headerlink" title="shell　function"></a>shell　function</h2><p>和其他的编程语言一样，shell也有函数功能。函数包含一个子任务和子操作。函数调用也很简单，直接写出函数名字和参数就可以了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function function_B &#123;</span><br><span class="line">  echo "Function B."</span><br><span class="line">&#125;</span><br><span class="line">function function_A &#123;</span><br><span class="line">  echo "$1"</span><br><span class="line">&#125;</span><br><span class="line">function adder &#123;</span><br><span class="line">  echo "$(($1 + $2))"</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> FUNCTION CALLS</span><br><span class="line"><span class="meta">#</span> Pass parameter to function A</span><br><span class="line">function_A "Function A."     # Function A.</span><br><span class="line">function_B                   # Function B.</span><br><span class="line"><span class="meta">#</span> Pass two parameters to function adder</span><br><span class="line">adder 12 56                  # 68</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/08/2019-3-8-shell/" data-id="cjv8u8x06000v59btd3tmnugj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/09/2019-3-9-EffectiveCPP/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Effective C++ 总结备忘
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/01/20/2019-1-20-LearningToSolveRoutingProblem/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">paper reading solve combination problem with NN and RL</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DSA/">DSA</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/LeetCode/">LeetCode</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Meachine-Learning/">Meachine Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tensorflow/">Tensorflow</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/c/">c++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/paper/">paper</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/reinforce-learning/">reinforce learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/比赛/">比赛</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/编译原理/">编译原理</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/05/03/leetcode/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/code/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-orderMatters/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-3-28－强化学习概览/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/03/2019-1-14-keras-learningScript/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Fang Wei<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
