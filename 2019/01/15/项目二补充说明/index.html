@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next pisces use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,9 +70,9 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Pisces',
     version: '7.1.1',
-    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    sidebar: {"position":"left","width":300,"display":"post","offset":12,"onmobile":false,"dimmer":false},
     back2top: true,
     back2top_sidebar: false,
     fancybox: false,
@@ -99,18 +99,16 @@
   <meta name="description" content="强化学习解决路径规划问题这篇文章的主要创新点有两个：  改进了Pointer-network中的encoder部分，舍弃了编码网络而直接对输入向量进行embeding+multi-layer attention，提高了计算效率. 改进了训练模块的baseline函数，采用更简单的greedy-roll-out sample. 文章说明这种方法比训练一个值函数效率要高。  算法的主题框架还是借鉴了a">
 <meta name="keywords" content="strive seek find">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Learning To Solve Routing　Problem">
+<meta property="og:title" content="项目二补充说明">
 <meta property="og:url" content="http://yoursite.com/2019/01/15/项目二补充说明/index.html">
 <meta property="og:site_name" content="Maxwei | My personal blog">
 <meta property="og:description" content="强化学习解决路径规划问题这篇文章的主要创新点有两个：  改进了Pointer-network中的encoder部分，舍弃了编码网络而直接对输入向量进行embeding+multi-layer attention，提高了计算效率. 改进了训练模块的baseline函数，采用更简单的greedy-roll-out sample. 文章说明这种方法比训练一个值函数效率要高。  算法的主题框架还是借鉴了a">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/01/15/项目二补充说明/img/Eembeding.png">
-<meta property="og:image" content="http://yoursite.com/2019/01/15/项目二补充说明/img/MHA-FF.png">
-<meta property="og:image" content="http://yoursite.com/2019/01/15/项目二补充说明/img/decoder.png">
 <meta property="og:image" content="http://yoursite.com/2019/01/15/项目二补充说明/img/REINFORCE.png">
-<meta property="og:updated_time" content="2019-05-04T01:38:04.395Z">
+<meta property="og:updated_time" content="2019-05-08T03:23:29.577Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Learning To Solve Routing　Problem">
+<meta name="twitter:title" content="项目二补充说明">
 <meta name="twitter:description" content="强化学习解决路径规划问题这篇文章的主要创新点有两个：  改进了Pointer-network中的encoder部分，舍弃了编码网络而直接对输入向量进行embeding+multi-layer attention，提高了计算效率. 改进了训练模块的baseline函数，采用更简单的greedy-roll-out sample. 文章说明这种方法比训练一个值函数效率要高。  算法的主题框架还是借鉴了a">
 <meta name="twitter:image" content="http://yoursite.com/2019/01/15/项目二补充说明/img/Eembeding.png">
 
@@ -130,7 +128,7 @@
   };
 </script>
 
-  <title>Learning To Solve Routing　Problem | Maxwei | My personal blog</title>
+  <title>项目二补充说明 | Maxwei | My personal blog</title>
   
 
 
@@ -230,7 +228,58 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>Categories</a>
 
   </li>
         
@@ -247,7 +296,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/archives" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>Archives</a>
 
   </li>
 
@@ -255,9 +304,6 @@
       
     </ul>
   
-
-  
-    
 
   
 
@@ -274,11 +320,21 @@
     </header>
 
     
+  
+  
+
+  
+
+  <a href="https://github.com/Maxgukr" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
 
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
+            
+
           
           <div id="content" class="content">
             
@@ -316,7 +372,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Learning To Solve Routing　Problem
+          <h1 class="post-title" itemprop="name headline">项目二补充说明
 
               
             
@@ -359,7 +415,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-05-04 09:38:04" itemprop="dateModified" datetime="2019-05-04T09:38:04+08:00">2019-05-04</time>
+                <time title="Modified: 2019-05-08 11:23:29" itemprop="dateModified" datetime="2019-05-08T11:23:29+08:00">2019-05-08</time>
               
             
           </span>
@@ -419,40 +475,70 @@
 <p>算法的主题框架还是借鉴了actor-critic模式。actor部分由注意力模型(attention model)执行，critic由baseline函数来代表。训练方法是经典的蒙特卡洛采样－REINFORCEA算法。</p>
 <a id="more"></a>
 <h2 id="Attention-model"><a href="#Attention-model" class="headerlink" title="Attention model"></a>Attention model</h2><p>本文针对TSP问题定义了一种Attention model，针对其他类型的问题，模型的框架是一样的，只是模型的input，mask,decoder context需要根据具体问题重新定义。定义一个包含n个顶点的实例集合s，每个点的特征由$x_i$表示，包含改点在二维平面中的坐标值。平面中的n个点构成了一个图，这个图是全连接的，包含自连接部分。一般情况下，这个问题也可以由Graph Attention Network来解决。定义一种遍历方法$\pi＝(\pi_1,…,\pi_n)$是所有点的一种全排列，对于任意$\pi_t\in{\pi_1,…,\pi_n}$以及$t\neq t’$,有$\pi_t \neq \pi_{t’}$. TSP的目标位对于给定的点集s给出一个遍历顺序，使总的距离最少。定义一个随机策略$p(\pi,s)$来根据给定的点集s选择遍历方法。将随机策略用参数$\theta$参数化再分解得到：</p>
-<p>$$p_{\theta}=\prod_{t=1}^np_{\theta}(\pi_t,(s,\pi_{1:t-1}))$$</p>
-<p>编码器encoder生成所有输入点的embeding值。解码器decoder顺序的生成一个遍历序列$\pi$，每次输出一个点。decoder的输入为encoder的embeding值，具体问题对应的mask以及context。对于TSP问题而言，当已经构建了部分遍历路径时，前面已经生成的点是不能再改变的，剩下的问题就是从已生成的最后一个点开始，在剩下还没有遍历的点中找到余下的路径然后回到起点。和已经遍历的点的顺序和坐标没有关系，只要知道了当前的最后一个点和第一个点就可以。decoder将第一个和最后一个点的embeding作为contexts参与下一个节点的解码过程，同时也会接受每个节点的mask标志，表示这个节点是否已经访问过。</p>
-<h3 id="input-embeding"><a href="#input-embeding" class="headerlink" title="input embeding"></a>input embeding</h3><center><br><img src="img/Eembeding.png" width="800" height="300" alt="Embeding"><br></center>
+<script type="math/tex; mode=display">p_{\theta}=\prod_{t=1}^np_{\theta}(\pi_t,(s,\pi_{1:t-1}))</script><p>编码器encoder生成所有输入点的embeding值。解码器decoder顺序的生成一个遍历序列$\pi$，每次输出一个点。decoder的输入为encoder的embeding值，具体问题对应的mask以及context。对于TSP问题而言，当已经构建了部分遍历路径时，前面已经生成的点是不能再改变的，剩下的问题就是从已生成的最后一个点开始，在剩下还没有遍历的点中找到余下的路径然后回到起点。和已经遍历的点的顺序和坐标没有关系，只要知道了当前的最后一个点和第一个点就可以。decoder将第一个和最后一个点的embeding作为contexts参与下一个节点的解码过程，同时也会接受每个节点的mask标志，表示这个节点是否已经访问过。</p>
+<h3 id="input-embeding"><a href="#input-embeding" class="headerlink" title="input embeding"></a>input embeding</h3><center>
+<img src="img/Eembeding.png" width="800" height="300" alt="Embeding">
+</center>
 
 <p>如图所示是embeding部分，和传统的encoder－decoder结构不一样，由于输入序列的顺序没有实际意义，因此并没采用LSTM网络处理输入序列，而是采用直接做embeding的方法。如图所示，首先对每个节点$x_i$（维度dx=2）做维度为$d_h=128$的初始化embeding，通过简单的线性投影：</p>
-<p>$$h_i^{(0)}=W^xX_i+b^x$$(1)</p>
-<p>接下来，初始化后的embeding会被送入包含N层的MHA-FF(Multi-Head-Attention)中，得到最后的embeding值。<br>定义$h_i^{(l)}$是第$l$层的MHA-FF输出，encoder除了计算每个节点的embeding之外还会额外计算一个扩展的embeding值作为补充，这个值定义为$\hat{h}^{(N)}$:</p>
-<p>$$\hat{h}^{(N)} = \frac{1}{N}\sum_{i=1}^Nh_i^{(n)}$$(2)</p>
-<p>所有的节点的embeding值$h_i^{(N)}$和扩展embeding值$\hat{h}^{(N)}$将共同作为decoder的输入。</p>
-<h3 id="Multi-Head-Attention"><a href="#Multi-Head-Attention" class="headerlink" title="Multi-Head-Attention"></a>Multi-Head-Attention</h3><center><br><img src="img/MHA-FF.png" width="300" height="400" alt="Embeding"></center>
+<script type="math/tex; mode=display">h_i^{(0)}=W^xX_i+b^x$$(1)
 
-<p>如图所示，一个MHA-FF层包含两个部分，multi-head-attention 和　feed-forward。在MHA中包含以下操作：</p>
-<p>$$\hat{h}_i=BN(h_i^{(l-1)}+MHA_i^l(h_1^{(l-1)},…,h_n^{(l-1)})$$(3)</p>
-<p>首先计算上一层输出的embeding${h_1^{(l-1)},…,h_n^{(l-1)}}$的MHA的值，然后再和原${h_1^{(l-1)},…,h_n^{(l-1)}}$相加。</p>
-<p>在全连接层中再做一次线性变换：</p>
-<p>$$h_i^{(l)}=BN(\hat{h}_i+FF(\hat{h}_i)$$(4)</p>
-<p>FF层中包含一个隐层，神经元数量为512采用ReLu函数激活。BN表示batch normaliztion</p>
-<h3 id="decoder"><a href="#decoder" class="headerlink" title="decoder"></a>decoder</h3><center><br><img src="img/decoder.png" width="800" height="200" alt="Embeding"></center>
+接下来，初始化后的embeding会被送入包含N层的MHA-FF(Multi-Head-Attention)中，得到最后的embeding值。
+定义$h_i^{(l)}$是第$l$层的MHA-FF输出，encoder除了计算每个节点的embeding之外还会额外计算一个扩展的embeding值作为补充，这个值定义为$\hat{h}^{(N)}$:
 
-<p>如图所示为decoder的解码过程。看最左边decoder t=1的一个子图，decoder的输入一共包含两个部分：所有节点embeding值${h_1^{(N)},…,h_n^{(N)}}$以及context vector(左上角小框中的三个向量)。其中context vector包含３个部分，Graph embeding的值$\hat{h}^{(N)}$,也就是扩展的embeding值，另外两个是已生成序列中的第一个和最后一个节点的embeding值。初始化时为$d_h$维的向量$V^f$和$V^l$。</p>
-<p>利用attention　mechanism来解码的过程如下：</p>
-<p>首先利用context vector计算问询值$q_c$:</p>
-<p>$$q_c = W^Qh_{(c)}$$</p>
-<p>再利用所有点集的embeding值计算attention中的key和value：</p>
-<p>$$ki = W^Kh_i$$</p>
-<p>$$vi = W^Vh_i$$</p>
-<p>得到q、k、v之后计算attention的过程如下：</p>
-<p>$$<br>\mu_{(c)j} =<br>\begin{cases}<br>  C\tanh(\frac{q_c^Tk_j}{\sqrt{d_k}}), &amp; j \neq \pi_{t’}, t’ &lt; t\<br>  -\infty, &amp; \text{otherwise}<br>\end{cases}<br>$$</p>
-<p>上式计算的是询问值$q_c$和每个没有访问过的节点的相似度$u_{(c)j}$,对于已经访问过的节点，相似度设置为负无穷。利用tanh函数将计算结果约束在[-C, C]之间，接下来计算每个节点的输出概率：</p>
-<p>$$p_i = p_{\theta}(\pi_t=i)=\frac{e^{\mu_{cj}}}{\sum_je^{\mu_{cj}}}$$</p>
-<p>将输出的新节点对应的embeding值作为下一次解码的contex vector中的最后一个节点的embeding值。</p>
+$$\hat{h}^{(N)} = \frac{1}{N}\sum_{i=1}^Nh_i^{(n)}$$(2)
+
+所有的节点的embeding值$h_i^{(N)}$和扩展embeding值$\hat{h}^{(N)}$将共同作为decoder的输入。
+
+### Multi-Head-Attention
+
+<center>
+<img
+    src = "img/MHA-FF.png"
+    width  = "300" 
+    height = "400"
+    alt = "Embeding"
+/></center>
+
+如图所示，一个MHA-FF层包含两个部分，multi-head-attention 和　feed-forward。在MHA中包含以下操作：
+
+$$\hat{h}_i=BN(h_i^{(l-1)}+MHA_i^l(h_1^{(l-1)},...,h_n^{(l-1)})$$(3)
+
+首先计算上一层输出的embeding$\{h_1^{(l-1)},...,h_n^{(l-1)}\}$的MHA的值，然后再和原$\{h_1^{(l-1)},...,h_n^{(l-1)}\}$相加。
+
+在全连接层中再做一次线性变换：
+
+$$h_i^{(l)}=BN(\hat{h}_i+FF(\hat{h}_i)$$(4)
+
+FF层中包含一个隐层，神经元数量为512采用ReLu函数激活。BN表示batch normaliztion
+
+### decoder
+
+<center>
+<img
+    src = "img/decoder.png"
+    width  = "800" 
+    height = "200"
+    alt = "Embeding"
+/></center>
+
+如图所示为decoder的解码过程。看最左边decoder t=1的一个子图，decoder的输入一共包含两个部分：所有节点embeding值$\{h_1^{(N)},...,h_n^{(N)}\}$以及context vector(左上角小框中的三个向量)。其中context vector包含３个部分，Graph embeding的值$\hat{h}^{(N)}$,也就是扩展的embeding值，另外两个是已生成序列中的第一个和最后一个节点的embeding值。初始化时为$d_h$维的向量$V^f$和$V^l$。
+
+利用attention　mechanism来解码的过程如下：
+
+首先利用context vector计算问询值$q_c$:
+
+$$q_c = W^Qh_{(c)}</script><p>再利用所有点集的embeding值计算attention中的key和value：</p>
+<script type="math/tex; mode=display">ki = W^Kh_i</script><script type="math/tex; mode=display">vi = W^Vh_i</script><p>得到q、k、v之后计算attention的过程如下：</p>
+<script type="math/tex; mode=display">
+\mu_{(c)j} = 
+\begin{cases}
+  C\tanh(\frac{q_c^Tk_j}{\sqrt{d_k}}), & j \neq \pi_{t'}, t' < t\\
+  -\infty, & \text{otherwise}
+\end{cases}</script><p>上式计算的是询问值$q_c$和每个没有访问过的节点的相似度$u_{(c)j}$,对于已经访问过的节点，相似度设置为负无穷。利用tanh函数将计算结果约束在[-C, C]之间，接下来计算每个节点的输出概率：</p>
+<script type="math/tex; mode=display">p_i = p_{\theta}(\pi_t=i)=\frac{e^{\mu_{cj}}}{\sum_je^{\mu_{cj}}}</script><p>将输出的新节点对应的embeding值作为下一次解码的contex vector中的最后一个节点的embeding值。</p>
 <h2 id="REINFORCE-with-greedy-rollout-baseline"><a href="#REINFORCE-with-greedy-rollout-baseline" class="headerlink" title="REINFORCE　with greedy-rollout　baseline"></a>REINFORCE　with greedy-rollout　baseline</h2><p>本文的第二个创新点就是采用greedy-rollout作为baseline，以减小训练过程中的方差。定义一个概率分布$p_{\theta}(\pi,s)$,意为给定实例点集s，输出遍历序列$\pi$的概率。定义损失函数为生成遍历序列总长度的期望。损失函数梯度计算如下：</p>
-<p>$$L(\theta,s)=E_{p_{\theta}(\pi,s)}[(L(\pi)-b(s))\nabla\log p_{\theta}(\pi,s)]$$</p>
-<p>一个好的baseline函数可以降低梯度方差从而加速学习过程。本文提出一种叫做rollout baseline的方法。从字面上来理解，是首回合的意思。b(s)的定义为目前为止最好的模型输出的解对应的代价。从直观上来理解，我们的目的是向梯度最斗的方向下降，以及代价函数越小越好，当当前的估计值$L(\pi)$比之前最好模型得到的$b(s)$还要好时，$L(\pi)-b(s)$就是负值，会加速下降。这种思想类似于self-critic的方法，自我更新，没有训练第二个critic网络。</p>
+<script type="math/tex; mode=display">L(\theta,s)=E_{p_{\theta}(\pi,s)}[(L(\pi)-b(s))\nabla\log p_{\theta}(\pi,s)]</script><p>一个好的baseline函数可以降低梯度方差从而加速学习过程。本文提出一种叫做rollout baseline的方法。从字面上来理解，是首回合的意思。b(s)的定义为目前为止最好的模型输出的解对应的代价。从直观上来理解，我们的目的是向梯度最斗的方向下降，以及代价函数越小越好，当当前的估计值$L(\pi)$比之前最好模型得到的$b(s)$还要好时，$L(\pi)-b(s)$就是负值，会加速下降。这种思想类似于self-critic的方法，自我更新，没有训练第二个critic网络。</p>
 <p><center><br><img src="img/REINFORCE.png"></center></p>
 
       
@@ -494,8 +580,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/01/15/2019-1-18-PG/" rel="prev" title="intuition to Policy-Gradient">
-                intuition to Policy-Gradient <i class="fa fa-chevron-right"></i>
+              <a href="/2019/01/15/2019-1-15-paper-reading-ncp/" rel="prev" title="神经网络解决组合优化问题">
+                神经网络解决组合优化问题 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -563,9 +649,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives">
                 
-                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -577,30 +663,40 @@
                 <div class="site-state-item site-state-categories">
                   
                     
+                      <a href="/categories">
                     
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">10</span>
-                    <span class="site-state-item-name">categories</span>
                   
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
                 </div>
               
 
@@ -612,6 +708,32 @@
 
           
 
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/Maxgukr" title="GitHub &rarr; https://github.com/Maxgukr" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:fangweiah@outlook.com" title="E-Mail &rarr; mailto:fangweiah@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
           
 
           
@@ -638,7 +760,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#强化学习解决路径规划问题"><span class="nav-number">1.</span> <span class="nav-text">强化学习解决路径规划问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Attention-model"><span class="nav-number">1.1.</span> <span class="nav-text">Attention model</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#input-embeding"><span class="nav-number">1.1.1.</span> <span class="nav-text">input embeding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Multi-Head-Attention"><span class="nav-number">1.1.2.</span> <span class="nav-text">Multi-Head-Attention</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#decoder"><span class="nav-number">1.1.3.</span> <span class="nav-text">decoder</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#REINFORCE-with-greedy-rollout-baseline"><span class="nav-number">1.2.</span> <span class="nav-text">REINFORCE　with greedy-rollout　baseline</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#强化学习解决路径规划问题"><span class="nav-number">1.</span> <span class="nav-text">强化学习解决路径规划问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Attention-model"><span class="nav-number">1.1.</span> <span class="nav-text">Attention model</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#input-embeding"><span class="nav-number">1.1.1.</span> <span class="nav-text">input embeding</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#REINFORCE-with-greedy-rollout-baseline"><span class="nav-number">1.2.</span> <span class="nav-text">REINFORCE　with greedy-rollout　baseline</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -679,7 +801,7 @@
 
 
 
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.1</div>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
 
 
 
@@ -767,7 +889,9 @@
   
 
 
-  <script src="/js/schemes/muse.js?v=7.1.1"></script>
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
 
 
 
@@ -805,6 +929,53 @@
   
 
   
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
 
   
 
@@ -823,6 +994,38 @@
   
 
   
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('Copy');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
 
   
 

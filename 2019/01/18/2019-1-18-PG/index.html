@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next pisces use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,9 +70,9 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Pisces',
     version: '7.1.1',
-    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    sidebar: {"position":"left","width":300,"display":"post","offset":12,"onmobile":false,"dimmer":false},
     back2top: true,
     back2top_sidebar: false,
     fancybox: false,
@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="强化学习之策略梯度方法之前介绍的强化学习的方法都是基于动作值函数的方法，他们学习每个动作对应的奖赏值，然后根据估计的动作值来选择要输出的动作，得到反馈更新动作值。没有动作值的估计，对应的策略也不复存在。在这一部分，将介绍参数化的策略估计方法，直接估计策略函数，不需要考虑值函数。但值函数可能任然需要被使用去学习策略函数的参数，但不会基于动作值函数来做动作选择。">
+  <meta name="description" content="之前介绍的强化学习的方法都是基于动作值函数的方法，他们学习每个动作对应的奖赏值，然后根据估计的动作值来选择要输出的动作，得到反馈更新动作值。没有动作值的估计，对应的策略也不复存在。在这一部分，将介绍参数化的策略估计方法，直接估计策略函数，不需要考虑值函数。但值函数可能任然需要被使用去学习策略函数的参数，但不会基于动作值函数来做动作选择。">
 <meta name="keywords" content="strive seek find">
 <meta property="og:type" content="article">
-<meta property="og:title" content="intuition to Policy-Gradient">
-<meta property="og:url" content="http://yoursite.com/2019/01/15/2019-1-18-PG/index.html">
+<meta property="og:title" content="强化学习之策略梯度方法">
+<meta property="og:url" content="http://yoursite.com/2019/01/18/2019-1-18-PG/index.html">
 <meta property="og:site_name" content="Maxwei | My personal blog">
-<meta property="og:description" content="强化学习之策略梯度方法之前介绍的强化学习的方法都是基于动作值函数的方法，他们学习每个动作对应的奖赏值，然后根据估计的动作值来选择要输出的动作，得到反馈更新动作值。没有动作值的估计，对应的策略也不复存在。在这一部分，将介绍参数化的策略估计方法，直接估计策略函数，不需要考虑值函数。但值函数可能任然需要被使用去学习策略函数的参数，但不会基于动作值函数来做动作选择。">
+<meta property="og:description" content="之前介绍的强化学习的方法都是基于动作值函数的方法，他们学习每个动作对应的奖赏值，然后根据估计的动作值来选择要输出的动作，得到反馈更新动作值。没有动作值的估计，对应的策略也不复存在。在这一部分，将介绍参数化的策略估计方法，直接估计策略函数，不需要考虑值函数。但值函数可能任然需要被使用去学习策略函数的参数，但不会基于动作值函数来做动作选择。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-03T14:55:17.605Z">
+<meta property="og:updated_time" content="2019-05-08T03:22:17.549Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="intuition to Policy-Gradient">
-<meta name="twitter:description" content="强化学习之策略梯度方法之前介绍的强化学习的方法都是基于动作值函数的方法，他们学习每个动作对应的奖赏值，然后根据估计的动作值来选择要输出的动作，得到反馈更新动作值。没有动作值的估计，对应的策略也不复存在。在这一部分，将介绍参数化的策略估计方法，直接估计策略函数，不需要考虑值函数。但值函数可能任然需要被使用去学习策略函数的参数，但不会基于动作值函数来做动作选择。">
+<meta name="twitter:title" content="强化学习之策略梯度方法">
+<meta name="twitter:description" content="之前介绍的强化学习的方法都是基于动作值函数的方法，他们学习每个动作对应的奖赏值，然后根据估计的动作值来选择要输出的动作，得到反馈更新动作值。没有动作值的估计，对应的策略也不复存在。在这一部分，将介绍参数化的策略估计方法，直接估计策略函数，不需要考虑值函数。但值函数可能任然需要被使用去学习策略函数的参数，但不会基于动作值函数来做动作选择。">
 
 
 
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/2019/01/15/2019-1-18-PG/">
+  <link rel="canonical" href="http://yoursite.com/2019/01/18/2019-1-18-PG/">
 
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>intuition to Policy-Gradient | Maxwei | My personal blog</title>
+  <title>强化学习之策略梯度方法 | Maxwei | My personal blog</title>
   
 
 
@@ -225,7 +225,58 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>Categories</a>
 
   </li>
         
@@ -242,7 +293,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/archives" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>Archives</a>
 
   </li>
 
@@ -250,9 +301,6 @@
       
     </ul>
   
-
-  
-    
 
   
 
@@ -269,11 +317,21 @@
     </header>
 
     
+  
+  
+
+  
+
+  <a href="https://github.com/Maxgukr" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
 
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
+            
+
           
           <div id="content" class="content">
             
@@ -294,7 +352,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/15/2019-1-18-PG/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/18/2019-1-18-PG/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Fang Wei">
@@ -311,7 +369,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">intuition to Policy-Gradient
+          <h1 class="post-title" itemprop="name headline">强化学习之策略梯度方法
 
               
             
@@ -337,7 +395,7 @@
                 
               
 
-              <time title="Created: 2019-01-15 00:00:00" itemprop="dateCreated datePublished" datetime="2019-01-15T00:00:00+08:00">2019-01-15</time>
+              <time title="Created: 2019-01-18 00:00:00" itemprop="dateCreated datePublished" datetime="2019-01-18T00:00:00+08:00">2019-01-18</time>
             
 
             
@@ -354,7 +412,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-05-03 22:55:17" itemprop="dateModified" datetime="2019-05-03T22:55:17+08:00">2019-05-03</time>
+                <time title="Modified: 2019-05-08 11:22:17" itemprop="dateModified" datetime="2019-05-08T11:22:17+08:00">2019-05-08</time>
               
             
           </span>
@@ -406,17 +464,17 @@
       
 
       
-        <h1 id="强化学习之策略梯度方法"><a href="#强化学习之策略梯度方法" class="headerlink" title="强化学习之策略梯度方法"></a>强化学习之策略梯度方法</h1><p>之前介绍的强化学习的方法都是基于动作值函数的方法，他们学习每个动作对应的奖赏值，然后根据估计的动作值来选择要输出的动作，得到反馈更新动作值。没有动作值的估计，对应的策略也不复存在。在这一部分，将介绍参数化的策略估计方法，直接估计策略函数，不需要考虑值函数。但值函数可能任然需要被使用去学习策略函数的参数，但不会基于动作值函数来做动作选择。</p>
+        <p>之前介绍的强化学习的方法都是基于动作值函数的方法，他们学习每个动作对应的奖赏值，然后根据估计的动作值来选择要输出的动作，得到反馈更新动作值。没有动作值的估计，对应的策略也不复存在。在这一部分，将介绍参数化的策略估计方法，直接估计策略函数，不需要考虑值函数。但值函数可能任然需要被使用去学习策略函数的参数，但不会基于动作值函数来做动作选择。</p>
 <a id="more"></a>
 <p>策略函数的参数向量：</p>
-<p>$$<br>\theta \in \R^{d}<br>$$</p>
-<p>动作概率：</p>
-<p>$$<br>\pi(a|s.\theta) = Pr{A_t=a|S_t=s, \theta_t=\theta}<br>$$</p>
-<p>表示在t时刻，状态为s，参数向量为$\theta$的条件下，输出动作a的概率。</p>
+<script type="math/tex; mode=display">
+\theta \in \R^{d}</script><p>动作概率：</p>
+<script type="math/tex; mode=display">
+\pi(a|s.\theta) = Pr\{A_t=a|S_t=s, \theta_t=\theta\}</script><p>表示在t时刻，状态为s，参数向量为$\theta$的条件下，输出动作a的概率。</p>
 <p>如果一个方法同时使用了学习好的值函数，值函数的权重向量为：</p>
-<p>$$<br>\omega \in \R^d<br>$$</p>
-<p>$$<br>\hat{V}(s,\omega)<br>$$</p>
-<p>在这一部分，我们利用标量的性能估计函数$J(\theta)$的梯度来学习策略函数的参数$\theta$</p>
+<script type="math/tex; mode=display">
+\omega \in \R^d</script><script type="math/tex; mode=display">
+\hat{V}(s,\omega)</script><p>在这一部分，我们利用标量的性能估计函数$J(\theta)$的梯度来学习策略函数的参数$\theta$</p>
 <h2 id="策略逼近和他的优势所在"><a href="#策略逼近和他的优势所在" class="headerlink" title="策略逼近和他的优势所在"></a>策略逼近和他的优势所在</h2><p>在策略梯度方法中，策略可以以任何方式来参数化，只要策略函数对参数$\theta$是可微分的。在本章节中，介绍在离散动作空间中最常用的参数化策略的方法并指针和动作值函数估计方法的相比，策略梯度的优势。策略梯度的方法同样也适用与连续动作空间。</p>
 <p>当动作是离散而且不大的时候，一个很自然的用来参数化的想法是数值性能来代表每一个动作－状态对的概率。在每个状态中有更高性能的动作被赋予更大的概率。比如可以用softmax函数来衡量动作的性能。</p>
 <p>使用参数化策略的方法的优势在于：</p>
@@ -436,16 +494,13 @@
 <li>t 代表迭代次数，$\theta_t$ 到　$\theta_{t+1}$的过程称为两次迭代之间的更新</li>
 </ul>
 <p>PG的目标是通过更新$\theta$的值，使输出最优动作$a^*$的概率接近１. $\pi_{\theta}$是一个函数，需要输出的值尽量大，可以采用梯度上升的方法，更新过程定义如下：</p>
-<p>$$\theta_{t+1} = \theta_t + \alpha \nabla \pi_{\theta_t}(a^*,s)$$</p>
-<p>梯度项$\nabla \pi_{\theta_t}(a^<em>|s)$的含义就是向可以使$\pi_{\theta_t}(a^</em>|s)$的值增加最快的方向更新$\theta$。</p>
+<script type="math/tex; mode=display">\theta_{t+1} = \theta_t + \alpha \nabla \pi_{\theta_t}(a^*,s)</script><p>梯度项$\nabla \pi_{\theta_t}(a^<em>|s)$的含义就是向可以使$\pi_{\theta_t}(a^</em>|s)$的值增加最快的方向更新$\theta$。</p>
 <h3 id="对梯度加权"><a href="#对梯度加权" class="headerlink" title="对梯度加权"></a>对梯度加权</h3><p>在实际中，并不知道那个动作是最好的，一种解决办法是采用具有更大的动作值的动作，这个动作值是在该动作下的一种近似逼近，可以用来衡量输出动作的好坏。这样保证策略最后收敛到１！</p>
 <p>假设在状态s输出动作a对应的动作值为$Q^*(a,s)$。这和Q-learning的学习过程非常相似，但是有一点细微的重要的不同，稍后会详细分析，接下来假定Ｑ函数是已经给定了。在每一个策略梯度上应用对应的动作值函数，可以得到改进的更新过程：</p>
-<p>$$\theta_{t+1} = \theta_t + \alpha Q^<em>(a,s)\nabla \pi_{\theta_t}(a^</em>,s)$$<br>　<br>上述过程依然存在问题:虽然可以向着有更大的动作值的方向更新$\theta_t$，但是也有这样一种异常情况出现：当动作值很小的动作却被赋予了更高的出现概率时，$\theta_t$会向着动作值更低的方向更新，因为概率更大导致乘积增大。</p>
+<script type="math/tex; mode=display">\theta_{t+1} = \theta_t + \alpha Q^*(a,s)\nabla \pi_{\theta_t}(a^*,s)</script><p>　<br>上述过程依然存在问题:虽然可以向着有更大的动作值的方向更新$\theta_t$，但是也有这样一种异常情况出现：当动作值很小的动作却被赋予了更高的出现概率时，$\theta_t$会向着动作值更低的方向更新，因为概率更大导致乘积增大。</p>
 <p>这就告诉我们，需要对动作值函数进行补偿，让动作值更大的动作得到更高的出场概率。很简单，我们在策略的偏导数下除以策略函数本身，抵消概率常数因子带来的影响：</p>
-<p>$$\theta_{t+1} = \theta_t + \alpha \frac{Q^<em>(a,s)\nabla \pi_{\theta_t}(a^</em>|s)}{\pi_{\theta_t}(a^*|s)}$$</p>
-<p>改变一下上面表达式的写法，就得到了一般的policy gradietn 参数更新方法：</p>
-<p>$$\theta_{t+1} = \theta_t + \alpha Q^<em>(a,s)\log \nabla_{\theta} \pi_{\theta_t}(a^</em>|s)$$</p>
-<p>写成对数函数有两点好处：</p>
+<script type="math/tex; mode=display">\theta_{t+1} = \theta_t + \alpha \frac{Q^*(a,s)\nabla \pi_{\theta_t}(a^*|s)}{\pi_{\theta_t}(a^*|s)}</script><p>改变一下上面表达式的写法，就得到了一般的policy gradietn 参数更新方法：</p>
+<script type="math/tex; mode=display">\theta_{t+1} = \theta_t + \alpha Q^*(a,s)\log \nabla_{\theta} \pi_{\theta_t}(a^*|s)</script><p>写成对数函数有两点好处：</p>
 <ul>
 <li>使policy gradient的含义模糊不清，增加其神秘色彩，营造高大上的氛围</li>
 <li>重新定义损失函数 $L= -A(s,a)log \pi_{\theta}(s|a)$, 可以使用标准的梯度下降算法训练模型。</li>
@@ -454,8 +509,7 @@
 <p>如果仅仅用上述两者方法之一作为策略梯度的权重来更新参数，会出先一个问题：无法去除估计值的噪声对更新策略参数的影响。比如，有很多动作值比较接近，有100,101,102等等，在应用到更新梯度参数时，无法知道哪个动作是更好的，哪个是有问题的，因为在某一次中可能选中了100对应的动作而忽略了其他动作对应的值。</p>
 <p>在经典的REINFORCE算法中，将估计值Q(s,a)减去任意一个baseline函数都可以达到很好的效果，只要这个baseline与选取的动作无关，是独立的，甚至是随机变量都可以。非常推荐在policy-gradient中使用baseline方法，可以有效的减小梯度更新时的方差。</p>
 <p>简单证明一下为什么任意与动作a无关的baseline都可以：</p>
-<p>$$\sum_ab(s) \nabla\pi_{\theta}(a|s)=b(s)\sum_a \nabla\pi_{\theta}(a|s)=b(s)\nabla\sum_a\pi_{\theta}(a|s)=b(s)\nabla1=0$$</p>
-
+<script type="math/tex; mode=display">\sum_ab(s) \nabla\pi_{\theta}(a|s)=b(s)\sum_a \nabla\pi_{\theta}(a|s)=b(s)\nabla\sum_a\pi_{\theta}(a|s)=b(s)\nabla1=0</script>
       
     </div>
 
@@ -485,8 +539,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/15/项目二补充说明/" rel="next" title="Learning To Solve Routing　Problem">
-                <i class="fa fa-chevron-left"></i> Learning To Solve Routing　Problem
+              <a href="/2019/01/15/2019-1-15-paper-reading-ncp/" rel="next" title="神经网络解决组合优化问题">
+                <i class="fa fa-chevron-left"></i> 神经网络解决组合优化问题
               </a>
             
           </div>
@@ -495,8 +549,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/01/15/2019-1-15-paper-reading-ncp/" rel="prev" title="paper reading solve combination problem with NN and RL">
-                paper reading solve combination problem with NN and RL <i class="fa fa-chevron-right"></i>
+              <a href="/2019/01/20/2019-1-20-LearningToSolveRoutingProblem/" rel="prev" title="强化学习解决TSP路径规划问题">
+                强化学习解决TSP路径规划问题 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -564,9 +618,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives">
                 
-                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -578,30 +632,40 @@
                 <div class="site-state-item site-state-categories">
                   
                     
+                      <a href="/categories">
                     
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">10</span>
-                    <span class="site-state-item-name">categories</span>
                   
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
                 </div>
               
 
@@ -613,6 +677,32 @@
 
           
 
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/Maxgukr" title="GitHub &rarr; https://github.com/Maxgukr" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:fangweiah@outlook.com" title="E-Mail &rarr; mailto:fangweiah@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
           
 
           
@@ -639,7 +729,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#强化学习之策略梯度方法"><span class="nav-number">1.</span> <span class="nav-text">强化学习之策略梯度方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#策略逼近和他的优势所在"><span class="nav-number">1.1.</span> <span class="nav-text">策略逼近和他的优势所在</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#策略梯度的理论"><span class="nav-number">1.2.</span> <span class="nav-text">策略梯度的理论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单的梯度上升"><span class="nav-number">1.2.1.</span> <span class="nav-text">简单的梯度上升</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对梯度加权"><span class="nav-number">1.2.2.</span> <span class="nav-text">对梯度加权</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Advantage-Function-and-Baseline"><span class="nav-number">1.3.</span> <span class="nav-text">Advantage Function and Baseline</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#策略逼近和他的优势所在"><span class="nav-number">1.</span> <span class="nav-text">策略逼近和他的优势所在</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#策略梯度的理论"><span class="nav-number">2.</span> <span class="nav-text">策略梯度的理论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单的梯度上升"><span class="nav-number">2.1.</span> <span class="nav-text">简单的梯度上升</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对梯度加权"><span class="nav-number">2.2.</span> <span class="nav-text">对梯度加权</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Advantage-Function-and-Baseline"><span class="nav-number">3.</span> <span class="nav-text">Advantage Function and Baseline</span></a></li></ol></div>
             
 
           </div>
@@ -680,7 +770,7 @@
 
 
 
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.1</div>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
 
 
 
@@ -768,7 +858,9 @@
   
 
 
-  <script src="/js/schemes/muse.js?v=7.1.1"></script>
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
 
 
 
@@ -806,6 +898,53 @@
   
 
   
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
 
   
 
@@ -824,6 +963,38 @@
   
 
   
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('Copy');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
 
   
 

@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next pisces use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,9 +70,9 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Pisces',
     version: '7.1.1',
-    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    sidebar: {"position":"left","width":300,"display":"post","offset":12,"onmobile":false,"dimmer":false},
     back2top: true,
     back2top_sidebar: false,
     fancybox: false,
@@ -96,18 +96,25 @@
 
 
 
-  <meta name="description" content="顺序相关－集合的序列到序列的模型#＃ 摘要序列问题在监督问题中再次兴起起来，由于循环神经网络的兴起。许多复杂的任务，诸如需要在输入输出端对序列进行建模，现在都可以用seq2seq的框架来解决。这种方法利用贝叶斯规则来高效的表达序列的联合概率分布。然而在许多情况下，可变长度的输入输出不能很自然的表达成序列。例如，目前尚不清楚如何将一组数字输入到模型中任务是对它们进行排序; 同样，当输出值对应于随机变">
+  <meta name="description" content="强化学习概览">
 <meta name="keywords" content="strive seek find">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Maxwei | My personal blog">
-<meta property="og:url" content="http://yoursite.com/2019/05/03/2019-orderMatters/index.html">
+<meta property="og:title" content="强化学习概览">
+<meta property="og:url" content="http://yoursite.com/2019/03/28/2019-3-28－强化学习概览/index.html">
 <meta property="og:site_name" content="Maxwei | My personal blog">
-<meta property="og:description" content="顺序相关－集合的序列到序列的模型#＃ 摘要序列问题在监督问题中再次兴起起来，由于循环神经网络的兴起。许多复杂的任务，诸如需要在输入输出端对序列进行建模，现在都可以用seq2seq的框架来解决。这种方法利用贝叶斯规则来高效的表达序列的联合概率分布。然而在许多情况下，可变长度的输入输出不能很自然的表达成序列。例如，目前尚不清楚如何将一组数字输入到模型中任务是对它们进行排序; 同样，当输出值对应于随机变">
+<meta property="og:description" content="强化学习概览">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-18T13:42:32.258Z">
+<meta property="og:image" content="http://yoursite.com/img/vf.png">
+<meta property="og:image" content="http://yoursite.com/img/fig1.png">
+<meta property="og:image" content="http://yoursite.com/img/bellman1.png">
+<meta property="og:image" content="http://yoursite.com/img/bm2.png">
+<meta property="og:image" content="http://yoursite.com/img/TD1.png">
+<meta property="og:image" content="http://yoursite.com/img/SARSA&q.png">
+<meta property="og:updated_time" content="2019-05-07T13:22:21.668Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Maxwei | My personal blog">
-<meta name="twitter:description" content="顺序相关－集合的序列到序列的模型#＃ 摘要序列问题在监督问题中再次兴起起来，由于循环神经网络的兴起。许多复杂的任务，诸如需要在输入输出端对序列进行建模，现在都可以用seq2seq的框架来解决。这种方法利用贝叶斯规则来高效的表达序列的联合概率分布。然而在许多情况下，可变长度的输入输出不能很自然的表达成序列。例如，目前尚不清楚如何将一组数字输入到模型中任务是对它们进行排序; 同样，当输出值对应于随机变">
+<meta name="twitter:title" content="强化学习概览">
+<meta name="twitter:description" content="强化学习概览">
+<meta name="twitter:image" content="http://yoursite.com/img/vf.png">
 
 
 
@@ -115,7 +122,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/2019/05/03/2019-orderMatters/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/28/2019-3-28－强化学习概览/">
 
 
 
@@ -125,7 +132,7 @@
   };
 </script>
 
-  <title> | Maxwei | My personal blog</title>
+  <title>强化学习概览 | Maxwei | My personal blog</title>
   
 
 
@@ -225,7 +232,58 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>Categories</a>
 
   </li>
         
@@ -242,7 +300,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+    <a href="/archives" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>Archives</a>
 
   </li>
 
@@ -250,9 +308,6 @@
       
     </ul>
   
-
-  
-    
 
   
 
@@ -269,11 +324,21 @@
     </header>
 
     
+  
+  
+
+  
+
+  <a href="https://github.com/Maxgukr" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
 
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
+            
+
           
           <div id="content" class="content">
             
@@ -294,7 +359,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/03/2019-orderMatters/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/2019-3-28－强化学习概览/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Fang Wei">
@@ -311,7 +376,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">强化学习概览
 
               
             
@@ -337,7 +402,7 @@
                 
               
 
-              <time title="Created: 2019-05-03 22:41:51" itemprop="dateCreated datePublished" datetime="2019-05-03T22:41:51+08:00">2019-05-03</time>
+              <time title="Created: 2019-03-28 00:00:00" itemprop="dateCreated datePublished" datetime="2019-03-28T00:00:00+08:00">2019-03-28</time>
             
 
             
@@ -354,11 +419,29 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-01-18 21:42:32" itemprop="dateModified" datetime="2019-01-18T21:42:32+08:00">2019-01-18</time>
+                <time title="Modified: 2019-05-07 21:22:21" itemprop="dateModified" datetime="2019-05-07T21:22:21+08:00">2019-05-07</time>
               
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/reinforce-learning/" itemprop="url" rel="index"><span itemprop="name">reinforce learning</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -388,9 +471,57 @@
       
 
       
-        <h1 id="顺序相关－集合的序列到序列的模型"><a href="#顺序相关－集合的序列到序列的模型" class="headerlink" title="顺序相关－集合的序列到序列的模型"></a>顺序相关－集合的序列到序列的模型</h1><p>#＃ 摘要<br>序列问题在监督问题中再次兴起起来，由于循环神经网络的兴起。许多复杂的任务，诸如需要在输入输出端对序列进行建模，现在都可以用seq2seq的框架来解决。这种方法利用贝叶斯规则来高效的表达序列的联合概率分布。然而在许多情况下，可变长度的输入输出不能很自然的表达成序列。例如，目前尚不清楚如何将一组数字输入到模型中任务是对它们进行排序; 同样，当输出值对应于随机变量时我们不知道如何组织输出，任务是模拟它们的未知的联合分步概率。在这篇文章中，我们研究了很多例子，在这些例子中，输入输出的顺序非常重要。此外，我们提出了一个损失函数，通过在训练的时候遍历可能的所有顺序，解决输出集结构上的缺失。</p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>序列到序列模型都有一个基本的框架：输入端的词向量经过embedding后经过一个由lstm网络构成的encoder，encoder的最后一个状态送入另一个称之为decoder的lstm网络，生成一个目标序列，每个时间步生成一个符号。</p>
-<h2 id="4-input-sets"><a href="#4-input-sets" class="headerlink" title="4. input sets"></a>4. input sets</h2><p>这一部分研究对输入端编码器的扩展。就像在前文讨论过的那样，序列可以被一个循环神经网络读入，将其内容压缩成一个向量。当输入是一个集合的时候，我们需要保证一个非常重要的属性，编码的过程对集合中元素的顺序不敏感。</p>
+        <p>强化学习概览</p>
+<a id="more"></a>
+<ul>
+<li><p>核心概念</p>
+<ul>
+<li>模型：转换和奖赏</li>
+<li>策略</li>
+<li>值函数</li>
+<li>最优值和策略</li>
+</ul>
+</li>
+<li><p>马尔科夫决策过程</p>
+</li>
+<li><p>贝尔曼方程</p>
+</li>
+<li><p>一般性的方法</p>
+<ul>
+<li>动态规划（模型已知）</li>
+<li>蒙特卡洛方法</li>
+<li><p>时间差分方法</p>
+<ul>
+<li>booststrapping</li>
+<li>值估计</li>
+<li>SARSA on-policy TD</li>
+<li>Q-learning off-policy TD</li>
+<li>DQN</li>
+</ul>
+</li>
+<li><p>组合MC-TD的方法</p>
+</li>
+<li><p>策略梯度</p>
+<ul>
+<li>PG 理论</li>
+<li>REINFORCE算法 各种PG变体的基础</li>
+<li>Actor-Critic</li>
+<li>A3C</li>
+<li>各种各样的变体</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>探索和利用的矛盾(激进还是保守)</p>
+</li>
+</ul>
+<p><strong>值函数 累计奖赏值</strong></p>
+<p><img src="/img/vf.png" alt="vf"></p>
+<p><img src="/img/fig1.png" alt="fig1"></p>
+<p><img src="/img/bellman1.png" alt="bm"></p>
+<p><img src="/img/bm2.png" alt="bm2"></p>
+<p><img src="/img/TD1.png" alt="TD1"></p>
+<p><img src="/img/SARSA&amp;q.png" alt="SARSA_Q"></p>
 
       
     </div>
@@ -421,8 +552,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/03/2019-3-28－强化学习概览/" rel="next" title>
-                <i class="fa fa-chevron-left"></i> 
+              <a href="/2019/03/27/2019-3-27-优化方法总结/" rel="next" title="总结几种常用优化器">
+                <i class="fa fa-chevron-left"></i> 总结几种常用优化器
               </a>
             
           </div>
@@ -431,8 +562,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/05/03/code/" rel="prev" title>
-                 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/05/03/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -477,17 +608,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <div class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -500,9 +622,9 @@
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives">
                 
-                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -514,30 +636,40 @@
                 <div class="site-state-item site-state-categories">
                   
                     
+                      <a href="/categories">
                     
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">10</span>
-                    <span class="site-state-item-name">categories</span>
                   
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
                 </div>
               
 
@@ -549,6 +681,32 @@
 
           
 
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/Maxgukr" title="GitHub &rarr; https://github.com/Maxgukr" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:fangweiah@outlook.com" title="E-Mail &rarr; mailto:fangweiah@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
           
 
           
@@ -564,23 +722,6 @@
         </div>
       </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#顺序相关－集合的序列到序列的模型"><span class="nav-number">1.</span> <span class="nav-text">顺序相关－集合的序列到序列的模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-input-sets"><span class="nav-number">1.2.</span> <span class="nav-text">4. input sets</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
 
       
@@ -616,7 +757,7 @@
 
 
 
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.1</div>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
 
 
 
@@ -704,7 +845,9 @@
   
 
 
-  <script src="/js/schemes/muse.js?v=7.1.1"></script>
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
 
 
 
@@ -742,6 +885,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 
@@ -760,6 +910,38 @@
   
 
   
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('Copy');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
 
   
 
