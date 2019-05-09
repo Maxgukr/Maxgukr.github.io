@@ -477,7 +477,7 @@
 <h2 id="Attention-model"><a href="#Attention-model" class="headerlink" title="Attention model"></a>Attention model</h2><p>本文针对TSP问题定义了一种Attention model，针对其他类型的问题，模型的框架是一样的，只是模型的input，mask,decoder context需要根据具体问题重新定义。定义一个包含n个顶点的实例集合s，每个点的特征由$x_i$表示，包含改点在二维平面中的坐标值。平面中的n个点构成了一个图，这个图是全连接的，包含自连接部分。一般情况下，这个问题也可以由Graph Attention Network来解决。定义一种遍历方法$\pi＝(\pi_1,…,\pi_n)$是所有点的一种全排列，对于任意$\pi_t\in{\pi_1,…,\pi_n}$以及$t\neq t’$,有$\pi_t \neq \pi_{t’}$. TSP的目标位对于给定的点集s给出一个遍历顺序，使总的距离最少。定义一个随机策略$p(\pi,s)$来根据给定的点集s选择遍历方法。将随机策略用参数$\theta$参数化再分解得到：</p>
 <script type="math/tex; mode=display">p_{\theta}=\prod_{t=1}^np_{\theta}(\pi_t,(s,\pi_{1:t-1}))</script><p>编码器encoder生成所有输入点的embeding值。解码器decoder顺序的生成一个遍历序列$\pi$，每次输出一个点。decoder的输入为encoder的embeding值，具体问题对应的mask以及context。对于TSP问题而言，当已经构建了部分遍历路径时，前面已经生成的点是不能再改变的，剩下的问题就是从已生成的最后一个点开始，在剩下还没有遍历的点中找到余下的路径然后回到起点。和已经遍历的点的顺序和坐标没有关系，只要知道了当前的最后一个点和第一个点就可以。decoder将第一个和最后一个点的embeding作为contexts参与下一个节点的解码过程，同时也会接受每个节点的mask标志，表示这个节点是否已经访问过。</p>
 <h3 id="input-embeding"><a href="#input-embeding" class="headerlink" title="input embeding"></a>input embeding</h3><center>
-<img src="img/Eembeding.png" width="800" height="300" alt="Embeding">
+<img src="/2019/01/15/项目二补充说明/img/Eembeding.png" width="800" height="300" alt="Embeding">
 </center>
 
 <p>如图所示是embeding部分，和传统的encoder－decoder结构不一样，由于输入序列的顺序没有实际意义，因此并没采用LSTM网络处理输入序列，而是采用直接做embeding的方法。如图所示，首先对每个节点$x_i$（维度dx=2）做维度为$d_h=128$的初始化embeding，通过简单的线性投影：</p>
@@ -539,7 +539,7 @@ $$q_c = W^Qh_{(c)}</script><p>再利用所有点集的embeding值计算attention
 <script type="math/tex; mode=display">p_i = p_{\theta}(\pi_t=i)=\frac{e^{\mu_{cj}}}{\sum_je^{\mu_{cj}}}</script><p>将输出的新节点对应的embeding值作为下一次解码的contex vector中的最后一个节点的embeding值。</p>
 <h2 id="REINFORCE-with-greedy-rollout-baseline"><a href="#REINFORCE-with-greedy-rollout-baseline" class="headerlink" title="REINFORCE　with greedy-rollout　baseline"></a>REINFORCE　with greedy-rollout　baseline</h2><p>本文的第二个创新点就是采用greedy-rollout作为baseline，以减小训练过程中的方差。定义一个概率分布$p_{\theta}(\pi,s)$,意为给定实例点集s，输出遍历序列$\pi$的概率。定义损失函数为生成遍历序列总长度的期望。损失函数梯度计算如下：</p>
 <script type="math/tex; mode=display">L(\theta,s)=E_{p_{\theta}(\pi,s)}[(L(\pi)-b(s))\nabla\log p_{\theta}(\pi,s)]</script><p>一个好的baseline函数可以降低梯度方差从而加速学习过程。本文提出一种叫做rollout baseline的方法。从字面上来理解，是首回合的意思。b(s)的定义为目前为止最好的模型输出的解对应的代价。从直观上来理解，我们的目的是向梯度最斗的方向下降，以及代价函数越小越好，当当前的估计值$L(\pi)$比之前最好模型得到的$b(s)$还要好时，$L(\pi)-b(s)$就是负值，会加速下降。这种思想类似于self-critic的方法，自我更新，没有训练第二个critic网络。</p>
-<p><center><br><img src="img/REINFORCE.png"></center></p>
+<p><center><br><img src="/2019/01/15/项目二补充说明/img/REINFORCE.png"></center></p>
 
       
     </div>

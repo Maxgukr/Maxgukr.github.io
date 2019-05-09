@@ -104,12 +104,12 @@
 <meta property="og:site_name" content="Maxwei | My personal blog">
 <meta property="og:description" content="深度学习中的正则化">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/img/formula5.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/27/2019-3-27-深度学习中的正则化/img/formula5.png">
 <meta property="og:updated_time" content="2019-05-07T12:21:32.480Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习中的正则化">
 <meta name="twitter:description" content="深度学习中的正则化">
-<meta name="twitter:image" content="http://yoursite.com/img/formula5.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/27/2019-3-27-深度学习中的正则化/img/formula5.png">
 
 
 
@@ -470,7 +470,7 @@
 <a id="more"></a>
 <p>在神经网络的情况下,有时希望对网络的每一层使用单独的惩罚,并分配不同<br>的 α 系数。寻找合适的多个超参数的代价很大,因此为了减少搜索空间,我们会在<br>所有层使用相同的权重衰减。</p>
 <p>在第 5.2 节中我们已经看到过最简单而又最常见的参数范数惩罚,即通常被称<br>为 权重衰减(weight decay)的 L 2 参数范数惩罚。这个正则化策略通过向目标函<br>数添加一个正则项 Ω(θ) =∥w∥ ,使权重更加接近原点 1 。在其他学术圈,L 2 也被<br>称为岭回归或 Tikhonov 正则。</p>
-<p><img src="/img/formula5.png" alt="formula5"></p>
+<p><img src="/2019/03/27/2019-3-27-深度学习中的正则化/img/formula5.png" alt="formula5"></p>
 <p>我们可以看到,加入权重衰减后会引起学习规则的修改,即在每步执行通常的梯度更<br>新之前先收缩权重向量(将权重向量乘以一个常数因子)。</p>
 <p>L 正则化相当于权重是高斯先验的 MAP 贝叶斯推断。对于 L 1 正则化,用于正则<br>∑<br>化代价函数的惩罚项 $ αΩ(w) = \sum_i  $ 与通过 MAP 贝叶斯推断最大化的对数先<br>2<br>验项是等价的</p>
 <h2 id="正则化和欠约束问题"><a href="#正则化和欠约束问题" class="headerlink" title="正则化和欠约束问题"></a>正则化和欠约束问题</h2><p>在某些情况下,为了正确定义机器学习问题,正则化是必要的。机器学习中许<br>多线性模型,包括线性回归和 PCA,都依赖于对矩阵 X ⊤ X 求逆。只要 X ⊤ X 是奇<br>异的,这些方法就会失效。当数据生成分布在一些方向上确实没有差异时,或因为<br>例子较少(即相对输入特征的维数来说)而在一些方向上没有观察到方差时,这个<br>矩阵就是奇异的。在这种情况下,正则化的许多形式对应求逆 X ⊤ X + αI。这个正则<br>化矩阵可以保证是可逆的。</p>
@@ -504,8 +504,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/27/2019-3-27-优化方法总结/" rel="next" title="总结几种常用优化器">
-                <i class="fa fa-chevron-left"></i> 总结几种常用优化器
+              <a href="/2019/03/27/2019-4-15-链接装载和库/" rel="next" title="链接装载和库(1)">
+                <i class="fa fa-chevron-left"></i> 链接装载和库(1)
               </a>
             
           </div>
@@ -514,8 +514,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/28/2019-3-28－强化学习概览/" rel="prev" title="强化学习概览">
-                强化学习概览 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/27/2019-3-27-优化方法总结/" rel="prev" title="总结几种常用优化器">
+                总结几种常用优化器 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

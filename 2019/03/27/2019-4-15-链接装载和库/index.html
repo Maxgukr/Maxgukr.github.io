@@ -104,12 +104,12 @@
 <meta property="og:site_name" content="Maxwei | My personal blog">
 <meta property="og:description" content="链接装载和库 链接的主要内容就是把各个模块之间相互引用的部分处理好，使得各个模块之间能够正确的衔接。链接器所要做的工作就是把一些指令对其他符号地址的引用加以修正。链接过程主要包括了：  地址和空间分配 符号决议 重定位">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/img/ELF.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/27/2019-4-15-链接装载和库/img/ELF.png">
 <meta property="og:updated_time" content="2019-05-07T12:21:39.176Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="链接装载和库(1)">
 <meta name="twitter:description" content="链接装载和库 链接的主要内容就是把各个模块之间相互引用的部分处理好，使得各个模块之间能够正确的衔接。链接器所要做的工作就是把一些指令对其他符号地址的引用加以修正。链接过程主要包括了：  地址和空间分配 符号决议 重定位">
-<meta name="twitter:image" content="http://yoursite.com/img/ELF.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/27/2019-4-15-链接装载和库/img/ELF.png">
 
 
 
@@ -491,7 +491,7 @@
 <p>全局变量和局部静态变量放在数据段中，“.data”</p>
 <p>未初始化的全局变量和局部变量以及所有初始化为０的全局或静态变量放在“.bss”中</p>
 <h2 id="3-4ELF文件结构描述"><a href="#3-4ELF文件结构描述" class="headerlink" title="3.4ELF文件结构描述"></a>3.4ELF文件结构描述</h2><p>ELF文件的最前面是文件头，包含了描述整个文件的基本属性，比如ELF文件版本，目标机器型号，程序入口地址等等。紧接着是各个段。与段有关的重要信息是段表(section header table)，描述了ELF文件包含的所有段的信息。比如每个段的段名，长度，偏移量等。接下来详细分析文件头和段表。</p>
-<p><img src="/img/ELF.png" alt></p>
+<p><img src="/2019/03/27/2019-4-15-链接装载和库/img/ELF.png" alt></p>
 <h2 id="3-5链接的基本接口——符号"><a href="#3-5链接的基本接口——符号" class="headerlink" title="3.5链接的基本接口——符号"></a>3.5链接的基本接口——符号</h2><p>在连接中，目标文件之间相互拼合实际上是目标文件之间对地址的引用，即对函数和变量的地址引用。在链接中，将函数和变量统称为符号，函数名或变量名就是符号名。</p>
 <p>链接过程中很关键的一部分就是对于符号的管理，每个目标文件都会有一个相应的符号表，这个表里记录了目标文件中所用到的所有符号。每个定义的符号有一个对应的值，叫做符号值，对于变量和函数来说，符号值就是它们的地址。将符号表中的所有符号进行分类，他们可能是下面这些类型中的一种：</p>
 <ul>
@@ -564,8 +564,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/27/2019-3-27-优化方法总结/" rel="prev" title="总结几种常用优化器">
-                总结几种常用优化器 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/27/2019-3-27-深度学习中的正则化/" rel="prev" title="深度学习中的正则化">
+                深度学习中的正则化 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
