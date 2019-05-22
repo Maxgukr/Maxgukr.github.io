@@ -106,7 +106,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/05/08/2019-5-8-socket编程简介/socket.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/08/2019-5-8-socket编程简介/sockaddr.png">
-<meta property="og:updated_time" content="2019-05-09T07:58:09.135Z">
+<meta property="og:updated_time" content="2019-05-13T06:19:47.333Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="socket编程简介">
 <meta name="twitter:description" content="本内容整理自《csapp》介绍简单的接口套接字方法编写网络程序。只介绍相关API接口函数调用方法，具体的TCP连接过程以及web服务器将在以后的章节中介绍。">
@@ -415,7 +415,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-05-09 15:58:09" itemprop="dateModified" datetime="2019-05-09T15:58:09+08:00">2019-05-09</time>
+                <time title="Modified: 2019-05-13 14:19:47" itemprop="dateModified" datetime="2019-05-13T14:19:47+08:00">2019-05-13</time>
               
             
           </span>
@@ -498,6 +498,7 @@
 <p>connect函数试图与套接字地址为serv_addr的服务器建立一个因特网连接，其中addr_len是sizeof(sockaddr_in)。connect函数会一直阻塞，一直到连接成功建立或发生错误。如果成功，sockfd描述符现在准备好读写了。</p>
 <h3 id="bind函数"><a href="#bind函数" class="headerlink" title="bind函数"></a>bind函数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bind</span><span class="params">(<span class="keyword">int</span> sockfd, struct sockaddr *my_addr, <span class="keyword">int</span> addr_len)</span></span></span><br></pre></td></tr></table></figure>
 <p>bind函数告诉内核，将my_addr中的服务器套接字地址和套接字描述符ockfd联系起来。其中addr_len是sizeof(sockaddr_in)。</p>
+<p>服务器在启动时捆绑他们众所周知的端口，如果一个TCP服务器未曾用bind捆绑一个端口，当调用connect或listen时，内核就要为相应的套接字选择临时端口。对于客户端来说选择临时端口很正常，然而对于服务端，它们是通过知名的端口号来为大家所熟知的。</p>
 <h3 id="listen函数"><a href="#listen函数" class="headerlink" title="listen函数"></a>listen函数</h3><p>客户端是发起连接请求的主动实体。服务器是等待来自客户端连接请求的被动实体。默认情况下，内核会认为socket函数创建的描述符对应于<strong>主动套接字</strong>，它存在于一个连接的客户端。服务器调用listen告诉内核，<strong>该描述符是被服务器端而不是被客户端调用。</strong></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">listen</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">int</span> backlog)</span></span></span><br></pre></td></tr></table></figure>
 <p>listen函数将sockfd由一个主动套接字转化为一个<strong>监听套接字</strong>，该套接字可以接受来自客户端的连接请求。backlog暗示了内核在开始拒绝连接请求前，应该放入队列中等待的未完成连接请求的数量。</p>
@@ -550,6 +551,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/10/2019-5-10-UNIX-I-O-md/" rel="prev" title="2019-5-10-UNIX-I/O.md">
+                2019-5-10-UNIX-I/O.md <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -618,7 +623,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">24</span>
+                    <span class="site-state-item-count">27</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -663,12 +668,37 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
               
 
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
               
             </nav>
           
