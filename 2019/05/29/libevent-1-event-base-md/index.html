@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","width":300,"display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="创建event_base实例在你运用感兴趣的libevent函数进行开发之前，你需要分配一个或更多的event_base结构体。每一个event_base结构体管理一个事件集合并且通过轮询(poll)的方式决定那个事件处于活跃状态。如果event_base被设置为使用锁(locking),在多线程之间访问它是安全的。事件循环可以在单线程内进行循环，当然，如果你想利用多线程来轮询I/O事件，你需要在">
+<meta name="keywords" content="服务端 网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="libevent-1-event_base.md">
+<meta property="og:url" content="http://yoursite.com/2019/05/29/libevent-1-event-base-md/index.html">
+<meta property="og:site_name" content="Maxwei | My personal blog">
+<meta property="og:description" content="创建event_base实例在你运用感兴趣的libevent函数进行开发之前，你需要分配一个或更多的event_base结构体。每一个event_base结构体管理一个事件集合并且通过轮询(poll)的方式决定那个事件处于活跃状态。如果event_base被设置为使用锁(locking),在多线程之间访问它是安全的。事件循环可以在单线程内进行循环，当然，如果你想利用多线程来轮询I/O事件，你需要在">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-10T02:53:35.404Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="libevent-1-event_base.md">
+<meta name="twitter:description" content="创建event_base实例在你运用感兴趣的libevent函数进行开发之前，你需要分配一个或更多的event_base结构体。每一个event_base结构体管理一个事件集合并且通过轮询(poll)的方式决定那个事件处于活跃状态。如果event_base被设置为使用锁(locking),在多线程之间访问它是安全的。事件循环可以在单线程内进行循环，当然，如果你想利用多线程来轮询I/O事件，你需要在">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/05/29/libevent-1-event-base-md/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>libevent-1-event_base.md | Maxwei | My personal blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Maxwei | My personal blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Succes is not final, failure is not fatal. It is the courage to continiue that counts.</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+
+  
+
+  <a href="https://github.com/Maxgukr" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/29/libevent-1-event-base-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fang Wei">
+      <meta itemprop="description" content="希望可以在这里记录自己成长">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Maxwei | My personal blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">libevent-1-event_base.md
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-05-29 11:02:21" itemprop="dateCreated datePublished" datetime="2019-05-29T11:02:21+08:00">2019-05-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-06-10 10:53:35" itemprop="dateModified" datetime="2019-06-10T10:53:35+08:00">2019-06-10</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="创建event-base实例"><a href="#创建event-base实例" class="headerlink" title="创建event_base实例"></a>创建event_base实例</h2><p>在你运用感兴趣的libevent函数进行开发之前，你需要分配一个或更多的<strong>event_base</strong>结构体。每一个event_base结构体管理一个事件集合并且通过轮询(poll)的方式决定那个事件处于活跃状态。如果event_base被设置为使用锁(locking),在多线程之间访问它是安全的。事件循环可以在单线程内进行循环，当然，如果你想利用多线程来轮询I/O事件，你需要在每一个线程中使用event_base结构体。每一个event_base有一个方法或后台程序，用来决定哪个事件已经准备好了。配置的方法与操作系统支持的方法有关，libevent对以下方法进行了打包：</p>
+<ul>
+<li>select</li>
+<li>poll</li>
+<li>epoll</li>
+<li>kqueue</li>
+<li>devpoll</li>
+<li>evport</li>
+<li>win32</li>
+</ul>
+<a id="more"></a>
+<p>用户可以通过环境变量禁用相应的方法。</p>
+<h2 id="设置具体的event-base"><a href="#设置具体的event-base" class="headerlink" title="设置具体的event_base"></a>设置具体的event_base</h2><p>event_base_new()函数分配并返回一个新的event_base实例按照默认的设置。它会检查环境变量并返回一个指向新的event_base的指针，有错的话返回空指针NULL。当选择上述方法检测事件状态时，它会挑选出系统支持的最快的方法。对于大多数程序，这个函数就足够了。函数event_nase_new()的声明在头文件<event2 event.h></event2></p>
+<h2 id="创建复杂的event-base实例"><a href="#创建复杂的event-base实例" class="headerlink" title="创建复杂的event_base实例"></a>创建复杂的event_base实例</h2><p>如果你想控制得到的event_base的类型，你需要使用event_config()。一个event_config是一个不透明的结构，保存对event_base的偏好设置信息。当你需要自己自定义的event_base时，就向函数event_base_new_with_config()传入event_config参数。</p>
+<p><strong>interface</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">struct event_config *<span class="title">event_config_new</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function">struct event_base *<span class="title">event_base_new_with_config</span><span class="params">(<span class="keyword">const</span> struct event_config *cfg)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">event_config_free</span><span class="params">(struct event_config *cfg)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>利用上述函数分配一个event_base实例。首先调用event_config_new()函数创建一个event_config结构，然后调用其他的函数对event_config进行设置，最后利用函数event_base_new_with_config()得到一个新的event_base实例。得到新的实例后利用event_config_free()释放新的资源。</p>
+<p><strong>interface</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">event_config_avoid_method</span><span class="params">(struct event_config *cfg, <span class="keyword">const</span> <span class="keyword">char</span> *method)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> event_method_feature &#123;</span><br><span class="line">    EV_FEATURE_ET = <span class="number">0x01</span>,</span><br><span class="line">    EV_FEATURE_O1 = <span class="number">0x02</span>,</span><br><span class="line">    EV_FEATURE_FDS = <span class="number">0x04</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">event_config_require_features</span><span class="params">(struct event_config *cfg,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  <span class="keyword">enum</span> event_method_feature feature)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> event_base_config_flag &#123;</span><br><span class="line">    EVENT_BASE_FLAG_NOLOCK = <span class="number">0x01</span>,</span><br><span class="line">    EVENT_BASE_FLAG_IGNORE_ENV = <span class="number">0x02</span>,</span><br><span class="line">    EVENT_BASE_FLAG_STARTUP_IOCP = <span class="number">0x04</span>,</span><br><span class="line">    EVENT_BASE_FLAG_NO_CACHE_TIME = <span class="number">0x08</span>,</span><br><span class="line">    EVENT_BASE_FLAG_EPOLL_USE_CHANGELIST = <span class="number">0x10</span>,</span><br><span class="line">    EVENT_BASE_FLAG_PRECISE_TIMER = <span class="number">0x20</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">event_config_set_flag</span><span class="params">(struct event_config *cfg,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">enum</span> event_base_config_flag flag)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>上面展示了三个函数对event_config进行设置的例子。</p>
+<ul>
+<li>调用event_config_avoid_method()告诉libevent禁止一个具体的后端方法。</li>
+<li>调用event_config_require_feature()告诉libevent不要使用任何无法提供所有特征集的后端方法</li>
+<li>调用event_config_set_flag()告诉libevent设置一个或多个运行时标志，在构建event_base之后</li>
+</ul>
+<p>认可的event_config_require_feature特征如下：</p>
+<ul>
+<li>EV_FEATURE_ET 要求后端方法支持边沿出发I/O</li>
+<li>EV_FEATURE_O1 要求后端方法在添加、删除一个事件或有一个事件变成激活状态时，有O(1)的时间复杂度</li>
+<li>EV_FEATURE_FDS 要求后端方法支持抽象文件描述符，而不仅仅是sockets</li>
+</ul>
+<p>认可的event_config_set_flag选项值如下：</p>
+<ul>
+<li>EVENT_BASE_FLAG_NOLOCK 不要给event_base分配锁</li>
+<li>EVENT_BASE_FLAG_IGNORE_ENV 不要检查环境变量当选择后端方法来应用时</li>
+<li>EVENT_BASE_STARTUP_IOCP 仅在windows上使用</li>
+<li>EVENT_BASE_FLAG_EPOLLUSE_CHANGELIST 告诉LIBEVENT如果使用epoll的方法，可以安全的使用更快的“changelist”的方法。</li>
+</ul>
+<p>如果设置的属性或特征操作系统并不支持，那么函数event_base_new_with_config()会返回null</p>
+<h2 id="检查event-base的后端方法"><a href="#检查event-base的后端方法" class="headerlink" title="检查event_base的后端方法"></a>检查event_base的后端方法</h2><p>有的时候你想看一下哪个特征在event_base中是可用的，或哪个方法正在使用，可以用如下函数:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">const</span> <span class="keyword">char</span> **<span class="title">event_get_supported_methods</span><span class="params">(<span class="keyword">void</span>)</span>　</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">/*返回一个指针指向数组，数组是支持的方法的名字*/</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">const</span> <span class="keyword">char</span> *<span class="title">event_base_get_method</span><span class="params">(<span class="keyword">const</span> struct event_base *base)</span></span>;</span><br><span class="line"><span class="comment">/*返回实际使用的方法*/</span></span><br><span class="line"><span class="function"><span class="keyword">enum</span> event_method_feature <span class="title">event_base_get_features</span><span class="params">(<span class="keyword">const</span> struct event_base *base)</span></span>;</span><br><span class="line"><span class="comment">/*返回支持的特征的掩码*/</span></span><br></pre></td></tr></table></figure>
+<h2 id="释放event-base"><a href="#释放event-base" class="headerlink" title="释放event_base"></a>释放event_base</h2><p>当你想要结束一个event_base的时候,你可以调用event_base_free(struct event_base *base)函数。注意，这个函数不会释放任何当前与event_base有关的事件，或关闭任何与当前事件有关的sockets，或释放任何指向事件的指针。</p>
+<h2 id="设置event-base的优先级"><a href="#设置event-base的优先级" class="headerlink" title="设置event_base的优先级"></a>设置event_base的优先级</h2><p>libevent支持对一个event_base设置多个优先级。默认的，一个event_base支持一个优先级。可以调用函数event_base_priority_init()设置event_base的优先级。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">event_base_priority_init</span><span class="params">(struct event_base *base, <span class="keyword">int</span> n_priority)</span></span></span><br><span class="line"><span class="function"><span class="comment">/*成功返回０，失败返回－１ n_priority 代表可以支持的优先级数量*/</span></span></span><br></pre></td></tr></table></figure>
+<p>优先级从0开始，重要程度一次降低，0最高，n_priority-1最低。</p>
+<blockquote>
+<p>注意：你必须在事件激活之前设置该事件的优先级，最好在创建event_base之后立即设置优先级</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">event_base_get_npriorities</span><span class="params">(struct event_base *base)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>该函数可以获得事件拥有的优先级数量。</p>
+<blockquote>
+<p>默认的，所有新的与event_base相关的事件，将被初始化为n_priority/2的优先级</p>
+</blockquote>
+<h2 id="fork一个新的线程后，重新初始化event-base"><a href="#fork一个新的线程后，重新初始化event-base" class="headerlink" title="fork一个新的线程后，重新初始化event_base"></a>fork一个新的线程后，重新初始化event_base</h2><p>需要注意的是，所有的后端方法将在调用fork()创建新的线程后被强制清除。因此，如果你在开辟新的线程后想要继续使用一个event_base，你需要重新初始化它。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">event_reinit</span><span class="params">(struct event_base *base)</span></span>;</span><br><span class="line"><span class="comment">/*成功返回０，失败返回－１*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*example*/</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">event_base</span> *<span class="title">base</span> = <span class="title">event_base_new</span>();</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* ... add some events to the event_base ... */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (fork()) &#123;</span><br><span class="line">    <span class="comment">/* In parent */</span></span><br><span class="line">    continue_running_parent(base); <span class="comment">/*...*/</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">/* In child */</span></span><br><span class="line">    event_reinit(base);</span><br><span class="line">    continue_running_child(base); <span class="comment">/*...*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/服务端-网络/" rel="tag"># 服务端 网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/22/2019-5-22-高性能服务器框架/" rel="next" title="高性能服务器框架">
+                <i class="fa fa-chevron-left"></i> 高性能服务器框架
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/29/libevent-2-event-loop-md/" rel="prev" title="libevent-2-event_loop.md">
+                libevent-2-event_loop.md <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Fang Wei</p>
+              <div class="site-description motion-element" itemprop="description">希望可以在这里记录自己成长</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">32</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/Maxgukr" title="GitHub &rarr; https://github.com/Maxgukr" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:fangweiah@outlook.com" title="E-Mail &rarr; mailto:fangweiah@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建event-base实例"><span class="nav-number">1.</span> <span class="nav-text">创建event_base实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置具体的event-base"><span class="nav-number">2.</span> <span class="nav-text">设置具体的event_base</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建复杂的event-base实例"><span class="nav-number">3.</span> <span class="nav-text">创建复杂的event_base实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检查event-base的后端方法"><span class="nav-number">4.</span> <span class="nav-text">检查event_base的后端方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#释放event-base"><span class="nav-number">5.</span> <span class="nav-text">释放event_base</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置event-base的优先级"><span class="nav-number">6.</span> <span class="nav-text">设置event_base的优先级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fork一个新的线程后，重新初始化event-base"><span class="nav-number">7.</span> <span class="nav-text">fork一个新的线程后，重新初始化event_base</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fang Wei</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+<script>
+  $('.highlight').not('.gist .highlight').each(function(i, e) {
+    var $wrap = $('<div>').addClass('highlight-wrap');
+    $(e).after($wrap);
+    $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+      var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+        return $(e).text();
+      }).toArray().join('\n');
+      var ta = document.createElement('textarea');
+      var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+      ta.style.top = yPosition + 'px'; // Prevent page scroll
+      ta.style.position = 'absolute';
+      ta.style.opacity = '0';
+      ta.readOnly = true;
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, code.length);
+      ta.readOnly = false;
+      var result = document.execCommand('copy');
+      
+      ta.blur(); // For iOS
+      $(this).blur();
+    })).on('mouseleave', function(e) {
+      var $b = $(this).find('.copy-btn');
+      setTimeout(function() {
+        $b.text('Copy');
+      }, 300);
+    }).append(e);
+  })
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
