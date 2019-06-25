@@ -96,17 +96,23 @@
 
 
 
-  <meta name="description" content="希望可以在这里记录自己成长">
-<meta name="keywords" content="strive seek find">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Maxwei | My personal blog">
-<meta property="og:url" content="http://yoursite.com/tags/服务端-网络/index.html">
+  <meta name="description" content="本章节介绍muduo网络库中输入输出缓冲区的设计与实现。">
+<meta name="keywords" content="－服务端 －网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="muduo源码学习-buffer类">
+<meta property="og:url" content="http://yoursite.com/2019/06/25/muduo源码学习-buffer类/index.html">
 <meta property="og:site_name" content="Maxwei | My personal blog">
-<meta property="og:description" content="希望可以在这里记录自己成长">
+<meta property="og:description" content="本章节介绍muduo网络库中输入输出缓冲区的设计与实现。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/06/25/muduo源码学习-buffer类/buffer.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/25/muduo源码学习-buffer类/buffer_init.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/25/muduo源码学习-buffer类/buffer_write.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/25/muduo源码学习-buffer类/buffer_read.png">
+<meta property="og:updated_time" content="2019-06-25T09:17:29.045Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Maxwei | My personal blog">
-<meta name="twitter:description" content="希望可以在这里记录自己成长">
+<meta name="twitter:title" content="muduo源码学习-buffer类">
+<meta name="twitter:description" content="本章节介绍muduo网络库中输入输出缓冲区的设计与实现。">
+<meta name="twitter:image" content="http://yoursite.com/2019/06/25/muduo源码学习-buffer类/buffer.png">
 
 
 
@@ -114,7 +120,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/tags/服务端-网络/">
+  <link rel="canonical" href="http://yoursite.com/2019/06/25/muduo源码学习-buffer类/">
 
 
 
@@ -124,7 +130,7 @@
   };
 </script>
 
-  <title>Tag: 服务端 网络 | Maxwei | My personal blog</title>
+  <title>muduo源码学习-buffer类 | Maxwei | My personal blog</title>
   
 
 
@@ -172,7 +178,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -248,7 +254,7 @@
         
         
           
-          <li class="menu-item menu-item-tags menu-item-active">
+          <li class="menu-item menu-item-tags">
 
     
     
@@ -331,135 +337,232 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block tag">
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>服务端 网络<small>Tag</small>
-        </h1>
-      </div>
-
-      
-        
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/25/muduo源码学习-buffer类/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fang Wei">
+      <meta itemprop="description" content="希望可以在这里记录自己成长">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Maxwei | My personal blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-          <a class="post-title-link" href="/2019/06/10/libevent-3-working_with_events/" itemprop="url">
-            
-              <span itemprop="name">libevent-2-event_loop.md</span>
-            
-          </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">muduo源码学习-buffer类
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-10T17:01:46+08:00" content="2019-06-10">
-          06-10
-        </time>
-      </div>
+              
+            
+          </h1>
+        
 
-    </header>
-  </article>
+        <div class="post-meta">
+          <span class="post-time">
 
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-06-25 15:05:59 / Modified: 17:17:29" itemprop="dateCreated datePublished" datetime="2019-06-25T15:05:59+08:00">2019-06-25</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/05/29/libevent-2-event-loop-md/" itemprop="url">
-            
-              <span itemprop="name">libevent-2-event_loop.md</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-05-29T17:01:46+08:00" content="2019-05-29">
-          05-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/05/29/libevent-1-event-base-md/" itemprop="url">
-            
-              <span itemprop="name">libevent-1-event_base.md</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-05-29T11:02:21+08:00" content="2019-05-29">
-          05-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <p>本章节介绍muduo网络库中输入输出缓冲区的设计与实现。</p>
+<a id="more"></a>
+<h2 id="Muduo的IO模型"><a href="#Muduo的IO模型" class="headerlink" title="Muduo的IO模型"></a>Muduo的IO模型</h2><p>在之前的文章《unix-io》中介绍了五种io模型：</p>
+<ul>
+<li>阻塞</li>
+<li>非阻塞</li>
+<li>io复用</li>
+<li>信号驱动</li>
+<li>异步</li>
+</ul>
+<p>上述都是单线程下的io模型。在C10K问题中,把线程也纳入了考量。在这个多核时代，线程是不可避免的。libevent的作者对服务端网络编程的线程模型有一个观点，<em>one loop per thread is usually a good model</em>.</p>
+<p>如果采用<em>one loop per thread</em>的模型，那么多线程服务端的问题就简化为如何设计一个高效且易于使用的<em>event loop</em>,然后在每个线程run一个<em>event loop</em>就可以了（同步和互斥是不可或缺的）。</p>
+<p><em>event loop</em>是<em>non-blocking</em>网络编程的核心，在现实生活中，<em>non-blocking</em>几乎总是和<em>IO multiplexing</em>一起使用，原因有两点：</p>
+<ul>
+<li>用轮询(polling)来检查某个non-blocking IO操作是否完成，这样太浪费cpu时间</li>
+<li>IO复用不能和阻塞IO一起使用，因为在阻塞IO中，read()/write()/accept()/connect()都有可能阻塞IO线程,这样线程就没办法处理其他socket上的事件</li>
+</ul>
+<h2 id="为什么在non-blocking编程中buffer是必须的"><a href="#为什么在non-blocking编程中buffer是必须的" class="headerlink" title="为什么在non-blocking编程中buffer是必须的"></a>为什么在non-blocking编程中buffer是必须的</h2><p>non-blocking的核心思想是避免线程阻塞在read()/write()或其他IO系统的调用函数上，这样可以最大限度的复用thread-of-control，让一个线程服务于多个socket连接.IO线程只能阻塞在IO复用函数上，像select/poll/epoll_wait这种。这样一来，缓冲层是必须的，每一个tcp连接都要有一个stateful的input buffer和output buffer。</p>
+<p><strong>TCP连接必须要有output buffer</strong></p>
+<p>TCP的发送缓冲区容量是有限的，由于流量控制的原因，上一次的数据还没发送完，新的数据又来了，但此时缓冲区已经放不下所有的待发送数据，程序肯定不能原地等待tcp发送完毕腾出空间接受新数据。作为应用层，只负责向操作系统生成数据，至于数据怎么发，分多少次发，何时发，这不是应用程序需要考虑的事情，这些工作应该交给网络库来完成。网络库应该接管剩余的不能放在TCP缓冲区里的数据，并注册EPOLLOUT事件，</p>
+<ul>
+<li>一旦socket变得可写，就立刻发送数据。</li>
+<li>如果任然不能一次发送完，需要持续关注EPOLLOUT事件；</li>
+<li>如果写完了，网络库应该停止关注EPOLLOUT事件。</li>
+<li>如果新到数据时，buffer中还有剩余，则应该append到buffer后面，而不是立即发送</li>
+<li>如果tcp关闭了连接，但buffer中还有剩余待发送数据，怎应等待数据发送完毕后在关闭连接</li>
+</ul>
+<p>综上，要想tcp连接在buffer上不阻塞，必须为每个tcp连接创建output buffer</p>
+<p><strong>TCP连接必须要有input buffer</strong></p>
+<p>网络库在处理socket可读事件的时候，必须一次性把socket里面的数据读完(从操作系统缓冲区搬运到应用层buffer)，否则会反复触发EPOLLIN事件,造成busy-loop。上述要求必然造成数据接受不完整的情况，比如连续读取好几个socket的内容才能得到一个完整的消息。</p>
+<h2 id="Buffer的功能需求"><a href="#Buffer的功能需求" class="headerlink" title="Buffer的功能需求"></a>Buffer的功能需求</h2><p>muduo buffer的特点:</p>
+<ul>
+<li>对外表现为一段连续内存</li>
+<li>size()可以自动增长，不是固定size()</li>
+<li>内部以std::vector<char>来保存数据，并提供相应的访问函数</char></li>
+<li>buffer像一个queue，从末尾写入数据，从头读出数据</li>
+</ul>
+<blockquote>
+<p>在非阻塞网络编程中，如何设计并使用缓冲区？一方面需要减少系统调用，一次读的数据越多越好，似乎应该准备一个大的缓冲区。另一方面希望减少内存占用。如果有1000个并发连接，为每个连接准备50kb的读写内存的话，将占用1G的内存。所以，看似是个很矛盾的选择</p>
+</blockquote>
+<p>muduo的做法是在栈上开辟一块零时的extrabuf空间,然后利用readv()来读取数据。buffer不够了就把数据先放到extrabuf里面，发送一部分之后再append回去。</p>
+<h2 id="Buffer数据结构"><a href="#Buffer数据结构" class="headerlink" title="Buffer数据结构"></a>Buffer数据结构</h2><p>buffer的内部是一个std::vector<char>,它是一块连续的存储空间。此外buffer有两个数据成员，指向vector中的元素。muduo buffer的数据结构如图所示：</char></p>
+<p><img src="/2019/06/25/muduo源码学习-buffer类/buffer.png" alt></p>
+<p>两个index把vector分成三个部分, prependable, readable, writeable, 灰色部分是buffer的有效载荷(payload)。muduo buffer里有两个常数kCheapPrepend, kInitialSize,定义了Prependable的大小和writeable的初始大小, readable的初始大小为0。在初始化之后, buffer的结构如图所示</p>
+<p><img src="/2019/06/25/muduo源码学习-buffer类/buffer_init.png" alt></p>
+<h2 id="Buffer的操作"><a href="#Buffer的操作" class="headerlink" title="Buffer的操作"></a>Buffer的操作</h2><p><strong>基本的read-write-cycle</strong></p>
+<p>初始化后向buffer中写入200字节,那么其布局如图7-6所示。写的过程中，writeindex指针向后移动，readindex保持不动</p>
+<p><img src="/2019/06/25/muduo源码学习-buffer类/buffer_write.png" alt></p>
+<p>从buffer中读入50个字节,读的过程中，writeindex保持不动，readindex向后移动</p>
+<p><img src="/2019/06/25/muduo源码学习-buffer类/buffer_read.png" alt></p>
+<p>全部读完后，readindex和writeindex回到初始状态</p>
+<p><strong>自动增长</strong></p>
+<p>muduo buffer不是固定不变的，可以自适应增长，这是使用vector的好处. 如果一开始的初始size是1kb多，如果线程经常收发10kb的数据，那么几次之后它的size会增长到10kb,然后保持不变.这样一方面避免浪费内存(<strong>buffer的初始大小直接决定了高并发连接时的内存消耗</strong>),另一方面避免反复分配内存。</p>
+<p><strong>size()和capcity()</strong></p>
+<p>使用vector的另一个好处是，capcity机制减少了内存分配的次数,vector的capcity以指数方式增长，保证push_back的平均时间复杂度是常数。</p>
 
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/－服务端-－网络/" rel="tag"># －服务端 －网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/10/libevent-3-working_with_events/" rel="next" title="libevent-2-event_loop.md">
+                <i class="fa fa-chevron-left"></i> libevent-2-event_loop.md
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -479,8 +582,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -495,7 +607,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">32</span>
+                    <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -573,7 +685,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -626,6 +740,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Muduo的IO模型"><span class="nav-number">1.</span> <span class="nav-text">Muduo的IO模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么在non-blocking编程中buffer是必须的"><span class="nav-number">2.</span> <span class="nav-text">为什么在non-blocking编程中buffer是必须的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Buffer的功能需求"><span class="nav-number">3.</span> <span class="nav-text">Buffer的功能需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Buffer数据结构"><span class="nav-number">4.</span> <span class="nav-text">Buffer数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Buffer的操作"><span class="nav-number">5.</span> <span class="nav-text">Buffer的操作</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
@@ -756,6 +887,10 @@
 
 
   
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
 
   
 
@@ -771,6 +906,8 @@
 
   
 
+
+  
 
 
   
