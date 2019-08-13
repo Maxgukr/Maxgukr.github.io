@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="Maxwei | My personal blog">
 <meta property="og:description" content="并发编程有两种基本模型，一种是消息传递，一种是共享内存。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-06T14:02:18.901Z">
+<meta property="og:updated_time" content="2019-07-08T14:40:45.295Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="多线程同步精要">
 <meta name="twitter:description" content="并发编程有两种基本模型，一种是消息传递，一种是共享内存。">
@@ -395,12 +395,24 @@
                 
               
 
-              <time title="Created: 2019-07-06 20:14:32 / Modified: 22:02:18" itemprop="dateCreated datePublished" datetime="2019-07-06T20:14:32+08:00">2019-07-06</time>
+              <time title="Created: 2019-07-06 20:14:32" itemprop="dateCreated datePublished" datetime="2019-07-06T20:14:32+08:00">2019-07-06</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-08 22:40:45" itemprop="dateModified" datetime="2019-07-08T22:40:45+08:00">2019-07-08</time>
               
             
           </span>
@@ -461,11 +473,23 @@
 <li>不重复解锁(RAII自动保证)</li>
 </ul>
 <h2 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h2><p>互斥器是排他原语，用来排他性的访问共享数据，他不是等待原语。在使用mutex的时候，我们一般都会期望加锁不要阻塞，总是能立即拿到锁。然后尽快访问数据，用完之后尽快解锁，这样才不影响并发性能。<br>如果要等待某个条件成立，需要用到条件变量(condition variable)。条件变量只有一种正确使用方式，几乎不不可能用错。</p>
+<p>对于wait端:</p>
 <ol>
 <li>必须与mutex一起使用，条件表达式的读写需要锁的保护。</li>
 <li>在mutex上锁的时候，才能条用wait()。</li>
 <li>把判断布尔条件和wait放在while循环中</li>
 </ol>
+<p>对于signal/broadcast端:</p>
+<ol>
+<li>不一定要在 mutex 已上锁的情况下调用 signal （理论上）。</li>
+<li>在 signal 之前一般要修改布尔表达式。</li>
+<li>修改布尔表达式通常要用 mutex 保护（至少用作 full memory barrier）。</li>
+<li>注意区分 signal 与 broadcast：“broadcast 通常用于表明状态变化，signal 通常用于表示资源可用。（broadcast should generally be used to indicate state change rather than resource availability。）”</li>
+</ol>
+<p><strong>在wait端必须使用while来等待条件变量而不能使用if语句，原因在于spurious wakeups,即虚假唤醒</strong></p>
+<blockquote>
+<p>虚假唤醒的正解是：指的是一次 signal() 调用唤醒两个或以上 wait()ing 的线程，或者没有调用 signal() 却有线程从 wait() 返回。</p>
+</blockquote>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MutexLock mutex;<span class="comment">//互斥器</span></span><br><span class="line"><span class="function">Condition <span class="title">cond</span><span class="params">(mutex)</span></span>;<span class="comment">//条件变量</span></span><br><span class="line"><span class="built_in">std</span>::dequeue&lt;<span class="keyword">int</span>&gt; <span class="built_in">queue</span>;<span class="comment">//任务队列</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">dequeue</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">MutexLockGuard <span class="title">lock</span><span class="params">(mutex)</span></span>; <span class="comment">//RAII　上锁</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">queue</span>.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        cond.wait();<span class="comment">//原子的释放互斥锁并进入等待，不会与添加任务的函数enqueue死锁,wait()执行完毕会自动重新加锁</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> top = <span class="built_in">queue</span>.front();</span><br><span class="line">    <span class="built_in">queue</span>.pop_front();</span><br><span class="line">    <span class="keyword">return</span>  top;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="高层次同步措施"><a href="#高层次同步措施" class="headerlink" title="高层次同步措施"></a>高层次同步措施</h2><p><strong>CountDownLatch</strong><br>倒计时是一种常用且易用的同步手段。它主要有两种用途：</p>
 <ul>
@@ -518,6 +542,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/13/webserver设计知识点总结/" rel="prev" title="webserver设计知识点总结">
+                webserver设计知识点总结 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -586,7 +614,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-count">38</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -670,7 +698,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
