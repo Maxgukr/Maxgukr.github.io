@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="Maxwei | My personal blog">
 <meta property="og:description" content="并发编程有两种基本模型，一种是消息传递，一种是共享内存。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-15T03:47:39.523Z">
+<meta property="og:updated_time" content="2019-09-23T02:31:37.354Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="多线程同步精要">
 <meta name="twitter:description" content="并发编程有两种基本模型，一种是消息传递，一种是共享内存。">
@@ -412,7 +412,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-09-15 11:47:39" itemprop="dateModified" datetime="2019-09-15T11:47:39+08:00">2019-09-15</time>
+                <time title="Modified: 2019-09-23 10:31:37" itemprop="dateModified" datetime="2019-09-23T10:31:37+08:00">2019-09-23</time>
               
             
           </span>
@@ -472,6 +472,7 @@
 <li>不忘了解锁(RAII自动保证)</li>
 <li>不重复解锁(RAII自动保证)</li>
 </ul>
+<p>互斥器：无法获取琐时，进线程立刻放弃剩余的时间片并进入阻塞（或者说挂起）状态，同时保存寄存器和程序计数器的内容（保存现场，上下文切换的前半部分），当可以获取锁时，进线程激活，等待被调度进CPU并恢复现场（上下文切换下半部分）上下文切换会带来数十微秒的开销，不要在性能敏感的地方用互斥锁</p>
 <h2 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h2><p>互斥器是排他原语，用来排他性的访问共享数据，他不是等待原语。在使用mutex的时候，我们一般都会期望加锁不要阻塞，总是能立即拿到锁。然后尽快访问数据，用完之后尽快解锁，这样才不影响并发性能。<br>如果要等待某个条件成立，需要用到条件变量(condition variable)。条件变量只有一种正确使用方式，几乎不不可能用错。</p>
 <p>对于wait端:</p>
 <ol>
@@ -614,7 +615,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">42</span>
+                    <span class="site-state-item-count">44</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>

@@ -107,7 +107,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/05/22/2019-5-22-tcp协议详解-md/tcp-header.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/22/2019-5-22-tcp协议详解-md/tcp_connect_close.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/22/2019-5-22-tcp协议详解-md/tcp_state_change.png">
-<meta property="og:updated_time" content="2019-09-15T03:47:15.159Z">
+<meta property="og:updated_time" content="2019-09-20T13:48:24.142Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2019-5-22-tcp协议详解.md">
 <meta name="twitter:description" content="TCP协议是TCP/IP协议族中另一个重要的协议。和IP协议相比，TCP协议更接近应用层，有更强的操作性。一些重要的socket选项都和TCP协议相关。本节从以下4个方面讨论TCP协议。  TCP头部信息 TCP状态转移过程：从连接到断开的整个过程，状态的迁移 TCP数据流 TCP数据流的控制：超时重传和拥塞控制">
@@ -416,7 +416,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-09-15 11:47:15" itemprop="dateModified" datetime="2019-09-15T11:47:15+08:00">2019-09-15</time>
+                <time title="Modified: 2019-09-20 21:48:24" itemprop="dateModified" datetime="2019-09-20T21:48:24+08:00">2019-09-20</time>
               
             
           </span>
@@ -464,7 +464,13 @@
 <p><strong>TCP字节流服务和UDP数据报服务</strong></p>
 <p>字节流服务和数据报服务的区别对应到实际编程中体现为通信双方是否执行相同次数的读写操作。在TCP连接中，发送端连续执行多次发送操作时，数据先放入TCP缓冲区中，当TCP真正开始发送数据时，发送缓冲区中这些等待发送的数据可能被封装成一个或多个TCP报文段发送。因此，TCP发送出的报文段的数量和应用程序执行发送操作的次数没有固定数量关系。</p>
 <p><strong>可靠传输</strong></p>
-<p>TCP传输是可靠的。TCP首先采用发送应答机制，即发送端发送的每个TCP报文段都必须得到接收方的应答，才认为TCP报文传输成功。其次，TCP协议采用超时重传机制，发送端发送完一个TCP报文段后启动定时器，如果在定时器内未收到应答，他将重传该报文段。最后，TCP数据报是以IP数据报发送的，而IP数据报到达接收端可能乱序，重复，所以TCP协议还会对接受到的TCP报文段进行重排、整理，再交给应用层。</p>
+<ul>
+<li>TCP传输是可靠的。TCP首先采用发送应答机制，即发送端发送的每个TCP报文段都必须得到接收方的应答，才认为TCP报文传输成功。</li>
+<li>其次，TCP协议采用超时重传机制，发送端发送完一个TCP报文段后启动定时器，如果在定时器内未收到应答，他将重传该报文段。</li>
+<li>最后，TCP数据报是以IP数据报发送的，而IP数据报到达接收端可能乱序，重复，所以TCP协议还会对接受到的TCP报文段进行重排、整理，再交给应用层。</li>
+<li>TCP提供流量控制。TCP总是告诉对端在任何时刻它一次能够从对端接受多少字节的数据，这称之为通告窗口。在任何时刻，该窗口指出接收缓冲区中当前可以用的空间量，从而确保发送端发送的数据不会使接收端缓冲区溢出</li>
+<li>TCP连接是全双工的，TCP必须为每个数据流方向上跟踪诸如序列号和通告窗口大小等状态。</li>
+</ul>
 <h2 id="TCP头部"><a href="#TCP头部" class="headerlink" title="TCP头部"></a>TCP头部</h2><p>TCP头部的结构如下所示</p>
 <p><img src="/2019/05/22/2019-5-22-tcp协议详解-md/tcp-header.png" alt="tcp-header"></p>
 <p>比较重要的几个部分作如下解释：</p>
@@ -479,12 +485,18 @@
 <p><img src="/2019/05/22/2019-5-22-tcp协议详解-md/tcp_state_change.png" alt="２"></p>
 <p>当客户端执行主动关闭时，他将向服务器发送一个结束报文段，同时进入FIN_WAIT_1状态。此时客户端若收到服务端对结束报文段的确认字段ACK，则进入FIN－WAIT_2状态。当客户端处于FIN－WAIT_2状态时，服务器处于CLOSE_WAIT状态。此时服务端也关闭连接，发送结束报文段FIN，则客户端也将进行确认ACK，此时客户端进入TIME_WAIT状态。处于FIN_WAIT_2的客户端需要收到服务端发送的结束报文段FIN才能进入TIME_WAIT状态，否则将一直停留在在这个状态。如果不是为了在半关闭状态下继续接受数据，连接长时间停留在FIN－WAIT_2没有意义。连接停留在FIN—WAIT_2状态可能发生在：客户端执行半关闭后，没等服务端发送结束报文段便强行终止客户端。此时客户端的连接交由系统内核来接管，可称之为孤儿连接。系统内核定义了能接管的孤儿连接数目和孤儿连接可以在系统内核中存在的生存时间来管理孤儿连接。</p>
 <blockquote>
-<p>为什么要有TIME_WAIT状态？</p>
+<p>为什么要有TIME_WAIT状态？MSL是任何IP数据报在互联网中存活的最长时间</p>
 </blockquote>
 <p>从上图来看，客户端接受服务端的结束报文段并发送确认报文段后，并没有进入CLOSE状态，而是进入TIME_WAIT状态，原因如下：</p>
 <ul>
-<li>可靠的终止TCP连接</li>
-<li>保证让迟来的TCP报文段有足够时间识别并丢弃</li>
+<li>可靠的终止TCP连接<ul>
+<li>因为服务端可能没有收到ack报文，将重新给客户端发送FIN报文，需要客户端重新发送最后的ACK</li>
+</ul>
+</li>
+<li>保证让迟来的TCP报文段有足够时间识别并丢弃<ul>
+<li>TCP必须防止来自某个连接的老的重复分组在该链接已终止后再现，从而被误解为属于同一连接的某个新的化身。为了做到这一点，TCP将不给处于TIME-WAIT状态的连接发起新的化身。既然TIME_WAIT状态的时间是MSL的2倍，这就足以让某个方向上的分组最多存活MSL秒就被抛弃，另一个方向上的应答最多存活MSL秒也被丢弃。通过实施这个规则，我们就能保证没成功建立一个TCP连接，来自该连接先前化身的老的重复分组都已在网络中中断了</li>
+</ul>
+</li>
 </ul>
 
       
@@ -603,7 +615,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">42</span>
+                    <span class="site-state-item-count">44</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>

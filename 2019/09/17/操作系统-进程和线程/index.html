@@ -105,7 +105,7 @@
 <meta property="og:description" content="操作系统-进程和线程">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/09/17/操作系统-进程和线程/三状态进程模型.png">
-<meta property="og:updated_time" content="2019-09-17T12:24:37.766Z">
+<meta property="og:updated_time" content="2019-09-22T03:15:43.918Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="操作系统-进程和线程">
 <meta name="twitter:description" content="操作系统-进程和线程">
@@ -397,12 +397,24 @@
                 
               
 
-              <time title="Created: 2019-09-17 16:12:54 / Modified: 20:24:37" itemprop="dateCreated datePublished" datetime="2019-09-17T16:12:54+08:00">2019-09-17</time>
+              <time title="Created: 2019-09-17 16:12:54" itemprop="dateCreated datePublished" datetime="2019-09-17T16:12:54+08:00">2019-09-17</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-09-22 11:15:43" itemprop="dateModified" datetime="2019-09-22T11:15:43+08:00">2019-09-22</time>
               
             
           </span>
@@ -584,7 +596,7 @@
 <li>进程在外存并等待某事件的出现</li>
 </ul>
 </li>
-<li>就挂起<ul>
+<li>就续挂起<ul>
 <li>进程外存，但只要进入内存，就可以执行</li>
 </ul>
 </li>
@@ -635,6 +647,44 @@
 </ul>
 </li>
 </ul>
+<h1 id="用户线程"><a href="#用户线程" class="headerlink" title="用户线程"></a>用户线程</h1><ul>
+<li><p>用户线程，由一组用户级的线程函数库来完成线程的管理，包括线程的创建、终止、同步和调度</p>
+</li>
+<li><p>用户线程特征，不依赖于操作系统内核</p>
+<ul>
+<li>内核不了解用户线程的存在</li>
+<li>可用于不支持线程的多进程操作系统</li>
+</ul>
+</li>
+<li>用户空间实现的线程机制<ul>
+<li>每个进程有私有的线程控制块(TCB)列表</li>
+<li>TCB由线程库函数去维护</li>
+</ul>
+</li>
+<li>同一进程内的用户线程切换较快<ul>
+<li>无需 用户态、内核态的切换</li>
+</ul>
+</li>
+<li><p>允许每个进程拥有自己的线程调度算法</p>
+</li>
+<li><p>用户线程的不足</p>
+<ul>
+<li>线程发起系统调用而阻塞时，则整个进程陷入等待</li>
+<li>不支持基于线程的处理机抢占</li>
+<li>只能按进程分配CPU时间</li>
+</ul>
+</li>
+</ul>
+<h1 id="内核线程"><a href="#内核线程" class="headerlink" title="内核线程"></a>内核线程</h1><p>进程由内核通过系统调用实现的线程机制，由内核完成线程的创建、终止和管理。内核空间中的进程控制块包含指针指向自己的线程控制块，删除和切换都在内核空间进行。</p>
+<ul>
+<li>由内核维护PCB和TCB</li>
+<li>线程执行系统调用而被阻塞不影响其他线程</li>
+<li>线程的创建、终止、切换开销较大<ul>
+<li>通过系统调用/内核函数在内核实现</li>
+</ul>
+</li>
+<li>以线程为单位分配CPU时间片</li>
+</ul>
 
       
     </div>
@@ -680,6 +730,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/22/操作系统-进程控制/" rel="prev" title="操作系统-进程控制">
+                操作系统-进程控制 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -748,7 +802,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">42</span>
+                    <span class="site-state-item-count">44</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -890,7 +944,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#进程的概念"><span class="nav-number">1.</span> <span class="nav-text">进程的概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程控制块-Process-Control-Block"><span class="nav-number">2.</span> <span class="nav-text">进程控制块(Process Control Block)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程状态"><span class="nav-number">3.</span> <span class="nav-text">进程状态</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三状态进程模型"><span class="nav-number">4.</span> <span class="nav-text">三状态进程模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#挂起进程模型"><span class="nav-number">5.</span> <span class="nav-text">　挂起进程模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线程的概念"><span class="nav-number">6.</span> <span class="nav-text">线程的概念</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#进程的概念"><span class="nav-number">1.</span> <span class="nav-text">进程的概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程控制块-Process-Control-Block"><span class="nav-number">2.</span> <span class="nav-text">进程控制块(Process Control Block)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程状态"><span class="nav-number">3.</span> <span class="nav-text">进程状态</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三状态进程模型"><span class="nav-number">4.</span> <span class="nav-text">三状态进程模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#挂起进程模型"><span class="nav-number">5.</span> <span class="nav-text">　挂起进程模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线程的概念"><span class="nav-number">6.</span> <span class="nav-text">线程的概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用户线程"><span class="nav-number">7.</span> <span class="nav-text">用户线程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内核线程"><span class="nav-number">8.</span> <span class="nav-text">内核线程</span></a></li></ol></div>
             
 
           </div>

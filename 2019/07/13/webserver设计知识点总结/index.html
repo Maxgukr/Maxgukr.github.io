@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="Maxwei | My personal blog">
 <meta property="og:description" content="服务端面试相关知识点总结">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-15T03:44:01.595Z">
+<meta property="og:updated_time" content="2019-09-17T14:40:50.195Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="webserver设计知识点总结">
 <meta name="twitter:description" content="服务端面试相关知识点总结">
@@ -412,7 +412,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-09-15 11:44:01" itemprop="dateModified" datetime="2019-09-15T11:44:01+08:00">2019-09-15</time>
+                <time title="Modified: 2019-09-17 22:40:50" itemprop="dateModified" datetime="2019-09-17T22:40:50+08:00">2019-09-17</time>
               
             
           </span>
@@ -496,9 +496,9 @@
 <p>shutdown-则破坏了socket 链接，读的时候可能侦探到EOF结束符，写的时候可能会收到一个SIGPIPE信号，这个信号可能直到socket buffer被填充了才收到，shutdown还有一个关闭方式的参数，0 不能再读，1不能再写，2 读写都不能。</p>
 </blockquote>
 <p>注意:</p>
-<pre><code>1&gt;. 如果有多个进程共享一个套接字，close每被调用一次，计数减1，直到计数为0时，也就是所用进程都调用了close，套
-</code></pre><p>接字将被释放。</p>
-<pre><code>2&gt;. 在多进程中如果一个进程中shutdown(sfd, SHUT_RDWR)后其它的进程将无法进行通信. 如果一个进程close(sfd)将不会
+<pre><code>1&gt;. 如果有多个进程共享一个套接字，close每被调用一次，计数减1，直到计数为0时，也就是所用进程都调用了close，套接字将被释放。
+
+2&gt;. 在多进程中如果一个进程中shutdown(sfd, SHUT_RDWR)后其它的进程将无法进行通信. 如果一个进程close(sfd)将不会
 </code></pre><h1 id="如何优雅的关闭连接"><a href="#如何优雅的关闭连接" class="headerlink" title="如何优雅的关闭连接"></a>如何优雅的关闭连接</h1><h1 id="eventfd是什么有什么好处"><a href="#eventfd是什么有什么好处" class="headerlink" title="eventfd是什么有什么好处"></a>eventfd是什么有什么好处</h1><h1 id="epoll的边沿触发和水平触发有什么区别"><a href="#epoll的边沿触发和水平触发有什么区别" class="headerlink" title="epoll的边沿触发和水平触发有什么区别"></a>epoll的边沿触发和水平触发有什么区别</h1><p>区别是，LT模式下，只要一个句柄上的事件一次没有处理完，会在以后调用epoll_wait时次次返回这个句柄，而ET模式仅在第一次返回。</p>
 <h1 id="epoll为什么高效相比select和poll"><a href="#epoll为什么高效相比select和poll" class="headerlink" title="epoll为什么高效相比select和poll"></a>epoll为什么高效相比select和poll</h1><p>红黑树、中断回调、就绪列表</p>
 <p>高并发的核心思想是将”等待消息准备好”和”处理消息”两件事分开，不需要所有的线程都阻塞在等待消息准备好这件事上。epoll/poll/select就是做等待消息准备好这件事的。select/poll相比于epoll的低效体现在如何处理消息等待好这件事的方式上。</p>
@@ -516,7 +516,9 @@
 </blockquote>
 <p>当我们调用epoll_ctl往里塞入百万个句柄时，epoll_wait仍然可以飞快的返回，并有效的将发生事件的句柄给我们用户。这是由于我们在调用epoll_create时，内核除了帮我们在epoll文件系统里建了个file结点，在内核cache里建了个红黑树用于存储以后epoll_ctl传来的socket外，还会再建立一个list链表，用于存储准备就绪的事件，当epoll_wait调用时，仅仅观察这个list链表里有没有数据即可。有数据就返回，没有数据就sleep，等到timeout时间到后即使链表没数据也返回。所以，epoll_wait非常高效。</p>
 <p>执行epoll_create时，创建了红黑树和就绪链表，执行epoll_ctl时，如果增加socket句柄，则检查在红黑树中是否存在，存在立即返回，不存在则添加到树干上，然后向内核注册回调函数，用于当中断事件来临时向准备就绪链表中插入数据。执行epoll_wait时立刻返回准备就绪链表里的数据即可。</p>
-<h1 id="HTTP报文都有哪些字段"><a href="#HTTP报文都有哪些字段" class="headerlink" title="HTTP报文都有哪些字段"></a>HTTP报文都有哪些字段</h1><h1 id="线程的唤醒还有哪些方式"><a href="#线程的唤醒还有哪些方式" class="headerlink" title="线程的唤醒还有哪些方式"></a>线程的唤醒还有哪些方式</h1><p>条件变量,eventfd，pipe</p>
+<h1 id="HTTP报文都有哪些字段"><a href="#HTTP报文都有哪些字段" class="headerlink" title="HTTP报文都有哪些字段"></a>HTTP报文都有哪些字段</h1><p>请求行，请求头部，空行，请求数据</p>
+<p>请求行:请求方法，URL，协议版本,换行符</p>
+<h1 id="线程的唤醒还有哪些方式"><a href="#线程的唤醒还有哪些方式" class="headerlink" title="线程的唤醒还有哪些方式"></a>线程的唤醒还有哪些方式</h1><p>条件变量,eventfd，pipe</p>
 <p>条件变量必须和互斥锁结合使用，使用起来麻烦，而且性能未必比eventfd好，其次条件变量不能像eventfd一样为I/O事件驱动，因此不能和服务器的I/O模式很好的融合，所以在某些时候不如eventfd好用</p>
 <p>管道，虽然管道能与I/O复用很好的融合，但很明显管道相比eventfd多用了一个文件描述符，而且管道的话内核还得给其管理的缓冲区，eventfd则不需要，所以单纯作为事件通知的话还是管道好用</p>
 <h1 id="一个请求到来具体的处理过程是怎样的"><a href="#一个请求到来具体的处理过程是怎样的" class="headerlink" title="一个请求到来具体的处理过程是怎样的"></a>一个请求到来具体的处理过程是怎样的</h1><h1 id="用到了哪些智能指针和RAII机制几种锁的区别是什么"><a href="#用到了哪些智能指针和RAII机制几种锁的区别是什么" class="headerlink" title="用到了哪些智能指针和RAII机制几种锁的区别是什么"></a>用到了哪些智能指针和RAII机制几种锁的区别是什么</h1><h1 id="任务队列是怎么实现的除了加锁还有什么方式"><a href="#任务队列是怎么实现的除了加锁还有什么方式" class="headerlink" title="任务队列是怎么实现的除了加锁还有什么方式"></a>任务队列是怎么实现的除了加锁还有什么方式</h1><h1 id="如何解决死锁"><a href="#如何解决死锁" class="headerlink" title="如何解决死锁"></a>如何解决死锁</h1><p>死锁是指多个进程循环等待彼此占有的资源而无限期的僵持等待下去的局面。简单而直接的情况是，两个线程拥有两个锁，但加锁的顺序不一样.</p>
@@ -646,7 +648,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">42</span>
+                    <span class="site-state-item-count">44</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
